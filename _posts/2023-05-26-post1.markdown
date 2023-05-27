@@ -3,6 +3,7 @@ layout: post
 title:  "Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유"
 date:   2023-05-26 21:12 +0900
 categories: Java
+tags : 개발
 ---
 
 2014년에 Java 8이 출시된 이후로 Java는 7개월 단위로 지속적으로 업데이트 되고있다.
@@ -82,7 +83,7 @@ Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유에 대�
   - Java 8
 
       ```java
-      private static final String queryString 
+      private static final String queryString
                                   = "SELECT *\n"+
                                       "FROM CUSTOMER \n"+
                                       "WHERE NAME = '영희';";
@@ -92,7 +93,7 @@ Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유에 대�
 
       ```java
       private static final String queryString = """
-            SELECT * 
+            SELECT *
             FROM CUSTOMER
             WHERE CUSTOMER_ID = '1';
             """;
@@ -194,13 +195,13 @@ Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유에 대�
     ```java
     public sealed interface Ev permits Hyundai, Kia {
     }
-    
+
     // Valid sub-class
     public non-sealed class Hyundai implements Ev{} // 봉인되지 않은 하위 클래스
     public final class Kia implements Ev{} // 최종 하위 클래스 (상속 불가능)
-    
+
     // 컴파일 오류 발생
-    public non-sealed class Madza extends Ev{} 
+    public non-sealed class Madza extends Ev{}
     ```
 
 - `sealed` 클래스의 하위 클래스는 final로 선언할 수 있다.
