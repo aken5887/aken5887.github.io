@@ -1,8 +1,8 @@
-title: 기록 노트
+title: J's DEV LOG
 author: AKEN
 email: aken@kakao.com
 description: > # this means to ignore newlines until "show_exerpts:"
-  기록과 저장을 담당하는 개발 브이로그
+  기록하는 개발 로그
 show_excerpts: true # set to true to show excerpts on the homepage
 
 # Minima date format
@@ -10,7 +10,7 @@ show_excerpts: true # set to true to show excerpts on the homepage
 sass:
   sass_dir: _sass
 plainwhite:
-  name: 기록 노트 ✒
+  name: J's DEV LOG ✒
   tagline: Java & Spring Backend Developer
   date_format: "%b %-d, %Y"
   sitemap: true # set to true to generate sitemap.xml content
@@ -56,3 +56,6 @@ plainwhite:
 plugins:
   - jekyll-seo-tag
 #  - jekyll-feed
+
+category_path: "category" # <- default value
+category_layout: "category.html" # <- default value

@@ -1,14 +1,26 @@
 [
   
     {
+      "title"    : "Proxy와 Spring",
+      "title-lower"    : "proxy와 spring",
+      "sub-titile" : "",
+      "sub-titile-lower" : "",
+      "categories" : "Spring",
+      "tags"     : "",
+      "url"      : "/spring/2023/05/27/post2.html",
+      "date"     : "2023-05-27 22:30:00 +0900",
+      "content"     : "Proxy란 “대리인” 클라이언트와 타깃 오브젝트 사이에 끼어서, 타깃 오브젝트를 대신 호출하는 것.그 와중에 부가 기능이 추가 되고, 타깃은 자신의 기능에만 집중하고 부가기능은 프록시에 위임한다.Reflection API구체적인 클래스 타입을 알지 못해도 “런타임”에 클래스 정보를 접근할 수 있게 해주는 자바에서 제공하는 API  단점        ..."
+    } ,
+  
+    {
       "title"    : "Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유",
       "title-lower"    : "java 8에서 java 17로 마이그레이션 해야 하는 7가지 이유",
       "sub-titile" : "",
       "sub-titile-lower" : "",
-      "categories" : "java",
+      "categories" : "Java",
       "tags"     : "",
       "url"      : "/java/2023/05/26/post1.html",
-      "date"     : "2023-05-26 21:12:42 +0900",
+      "date"     : "2023-05-26 21:12:00 +0900",
       "content"     : "2014년에 Java 8이 출시된 이후로 Java는 7개월 단위로 지속적으로 업데이트 되고있다.Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유에 대해서 알아보자짧아진 Java 릴리즈 주기  Java 8은 2014년에 출시되었고 Java 17은 2021년에 출시됨.  Java 8 이후 Java는 6개월마다 릴리즈 되므로, 6개월 마다..."
     } 
   

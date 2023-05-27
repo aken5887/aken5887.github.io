@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유"
-date:   2023-05-26 21:12:42 +0900
-categories: java
+date:   2023-05-26 21:12 +0900
+categories: Java
 ---
 
 2014년에 Java 8이 출시된 이후로 Java는 7개월 단위로 지속적으로 업데이트 되고있다.
