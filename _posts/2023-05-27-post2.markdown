@@ -3,7 +3,7 @@ layout: post
 title:  "Proxy와 Spring"
 date:   2023-05-27 22:30 +0900
 categories: Spring
-tags : 개발팁
+tags : TIL
 ---
 Proxy란 “대리인” 클라이언트와 타깃 오브젝트 사이에 끼어서, 타깃 오브젝트를 대신 호출하는 것.
 

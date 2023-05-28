@@ -3,7 +3,7 @@ layout: post
 title:  "Java 컴파일과 JVM 메모리 영역"
 date:   2023-05-28 10:04 +0900
 categories: Java
-tags : 개발팁
+tags : TIL
 ---
 
 `.java` 확장자 파일이 바이트 코드인 `.class` 확장자 파일로 컴파일 되어, 클래스 로더에 의해 JVM 메모리 영역에 올라가는 과정을 알아보도록 하자.
