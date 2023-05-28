@@ -1,9 +1,21 @@
 @charset "utf-8";
+@font-face {
+  font-family: NanumGothic;
+  src: url('/assets/css/fonts/NanumBarunGothic.eot');
+  src: url('/assets/css/fonts/NanumBarunGothic.eot') format('embedded-opentype'),
+  url('/assets/css/fonts/NanumBarunGothic.woff') format('woff');}
+@font-face {
+  font-family :SpoqaHanSansNeo;
+  src: url('/assets/css/fonts/SpoqaHanSansNeo-Regular.otf');
+}
 
 // Define defaults for each variable.
 
-$base-font-family: Helvetica, Arial, Oswald, sans-serif, !default;
-$base-font-size: 14px !default;
+$base-font-family:
+-apple-system, "Apple SD Gothic Neo", SpoqaHanSansNeo, NanumGothic,
+"Malgun Gothic", "맑은 고딕",
+"Noto Sans KR", "Noto Sans CJK KR", arial, 돋움, Dotum, Tahoma, Geneva, sans-serif !default;
+$base-font-size: 16px !default;
 $base-font-weight: 400 !default;
 $small-font-size:  $base-font-size * 0.875 !default;
 $base-line-height: 1.8 !default;
