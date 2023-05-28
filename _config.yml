@@ -24,7 +24,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: J's Dev Blog
+title: Jud's Dev Blog
 email: aken@kakao.com
 author: aken5887
 
@@ -43,8 +43,9 @@ author: aken5887
 copyright: "Copyright © 2023-{currentYear} {author}"
 
 description: >- # this means to ignore newlines until "baseurl:"
-  J's Dev Blog
+  Jud's Dev Blog
   - Spring & Java Backend Developer
+  - Today I learn
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://aken5887.github.io"
