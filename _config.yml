@@ -156,8 +156,8 @@ header_pages:
 # Page default value
 defaults:
  home:
-   heading: "J's Dev Blog"
-   subheading: "개발 기록의 아카이빙"
+   heading: "Jud's Dev Blog"
+   subheading: "개발 블로그"
    banner: ""
 
 # Banner default settings
