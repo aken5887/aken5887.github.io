@@ -50,7 +50,7 @@ tags : TIL
 
 ![img1.daumcdn.jpg](/assets/images/posts/img1.daumcdn.jpg)
 
-그림 - Runtime Data Area ([출처](https://aljjabaegi.tistory.com/387))
+- 그림 - Runtime Data Area ([출처](https://aljjabaegi.tistory.com/387))
 
 > **💡 get, insert, update, delete 등 CRUD 메소드가 있는 서비스 클래스가 있을 때**
 > - 이 클래스와 메소드의 정보는 실행 엔진에 의해 Method Area 에 올라가며
