@@ -10,6 +10,16 @@
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
   <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6312418501184620" crossorigin="anonymous"/>
+  <ins class="kakao_ad_area" style="display:none;"
+       data-ad-unit = "DAN-rKH2ejGfmTbj08Ab"
+       data-ad-width = "250"
+       data-ad-height = "250"></ins>
+  <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+  <script type="text/javascript">
+    function callBackFunc(arg1) {
+      console.log("로딩에 실패하였습니다."+arg1);
+    }
+  </script>
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
   {%- include extensions/google-analytics.html -%}
