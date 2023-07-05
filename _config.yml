@@ -24,7 +24,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Jud's Dev Wiki
+title: AK's Dev Wiki
 email: aken@kakao.com
 author: aken5887
 
@@ -156,7 +156,7 @@ header_pages:
 # Page default value
 defaults:
  home:
-   heading: "Jud's Dev Wiki"
+   heading: "AK's Dev Wiki"
    subheading: "개발 기록 위키 ✍"
    banner: ""
 
