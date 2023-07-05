@@ -60,7 +60,8 @@ html {
  * Site header
  */
 .site-header {
-  background-color: $header-background-color;
+  //background-color: $header-background-color;
+  background-color: $banner-background;
   height: $header-height;
   width: 100%;
   transition: height 0.2s, text-shadow 0.2s, top 0.2s;
@@ -583,9 +584,8 @@ html {
   display: block;
   position: relative;
   //height: $banner-height;
-  //background-color: $banner-background;
-  height : 300px;
-  background-color: #2B2B2B;
+  height: 300px;
+  background-color: $banner-background;
   transition: height 0.2s;
 
   .page-banner-img {

@@ -107,7 +107,7 @@ yat:
 # spacegrey: #353535
 # snowwhite: #ffffff
 #
-theme_color: #353535
+theme_color: coolblack
 #
 # Custom color as below:
 # theme_color: "#882250"
@@ -134,7 +134,7 @@ theme_color: #353535
 # it will be always kept on every visit (i.e. no matter
 # the browser is closed or not)
 #
-night_mode: "on"
+night_mode: off
 
 # Code badge setting
 # You can enable or disable the code badge and so on
@@ -158,8 +158,6 @@ defaults:
  home:
    heading: "AK's Dev Wiki"
    subheading: "개발 기록 위키 ✍"
-   banner: ""
-
 # Banner default settings
 # These banner settings are for global banner default, but you can also
 # config it by the front matter for one specific post
@@ -171,9 +169,9 @@ defaults:
 #   image: null             # Image banner source
 #   opacity: 1.0            # Banner opacity (100% is 1.0)
 #   background: "rgba(0, 0, 0, 0.8)"  # Banner background (Could be a image)
-#   height: "640px"         # Banner default height
+#   height: "300px"         # Banner default height
 #   min_height: null        # Banner minimum height
-#   heading_style: null     # Custom heading style (e.g. "font-weight: bold; text-decoration: underline")
+#   heading_style: "rgba(0, 0, 0, 0.8)"
 #   subheading_style: null  # Custom subheading style (e.g. color: gold)
 
 # Excerpt size setting
