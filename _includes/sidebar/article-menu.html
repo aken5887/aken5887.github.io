@@ -24,11 +24,18 @@
 
     // Generate post menu
     var menuHTML = '';
+    var topHeadId = 1;
     for (var i = 0; i < headings.length; i++) {
       var h = headings[i];
+      var headTagName = h.tagName.toLowerCase();
+      var headId = h.getAttribute('id');
+
+      if(headTagName == 'h1'){
+        topHeadId++;
+      }
       menuHTML += (
-        '<li class="h-' + h.tagName.toLowerCase() + '">'
-        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+        '<li class="h-' + headTagName + ' h1-' + topHeadId + '">'
+        + '<a href="#h-' + headId + '">' + h.textContent + '</a></li>');
     }
 
     menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
@@ -52,9 +59,15 @@
       var endItem = activeItem
       var beginIndex = index;
       var endIndex = index + 1;
+      var topHeadId = '';
+
+      if(index > -1){
+        topHeadId = items[index].classList.item(1);
+      }
+
       while (beginIndex >= 0
         && !items[beginIndex].classList.contains('h-h1')
-        && !items[endIndex].classList.contains('h-h2')) {
+        && !items[beginIndex].classList.contains('h-h2')) {
         beginIndex -= 1;
       }
       while (endIndex < items.length
@@ -62,25 +75,23 @@
         && !items[endIndex].classList.contains('h-h2')) {
         endIndex += 1;
       }
+
       for (var i = 0; i < beginIndex; i++) {
         item = items[i]
         if (
-            !item.classList.contains('h-h1') &&
-            !item.classList.contains('h-h2')
+            (!item.classList.contains('h-h1') && !item.classList.contains('h-h2'))
+             || (item.classList.contains('h-h2') && !item.classList.contains(topHeadId))
             ) {
           item.style.display = 'none';
         }
       }
       for (var i = beginIndex + 1; i < endIndex; i++) {
         item = items[i]
-        // if (!item.classList.contains('h-h2')) {
-          item.style.display = '';
-        // }
+        item.style.display = '';
       }
       for (var i = endIndex; i < items.length; i++) {
         item = items[i]
-        if (!item.classList.contains('h-h1') &&
-            !item.classList.contains('h-h2')) {
+        if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
           item.style.display = 'none';
         }
       }
