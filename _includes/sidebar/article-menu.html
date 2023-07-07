@@ -89,10 +89,18 @@
         item = items[i]
         item.style.display = '';
       }
+
       for (var i = endIndex; i < items.length; i++) {
         item = items[i]
         if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
           item.style.display = 'none';
+        }
+      }
+
+      for(var i = 0; i < items.length; i++){
+        item = items[i];
+        if(item.classList.contains(topHeadId) && item.classList.contains('h-h2')){
+          item.style.display = '';
         }
       }
     }
