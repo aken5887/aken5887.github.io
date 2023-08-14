@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>토비의 스프링 - 2-4장 스프링 @MVC | AK’s Dev Wiki</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="토비의 스프링 - 2-4장 스프링 @MVC">
+<meta name="author" content="aken5887">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="스프링 MVC와 DispatcherServlet">
+<meta property="og:description" content="스프링 MVC와 DispatcherServlet">
+<link rel="canonical" href="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/12/post1.html">
+<meta property="og:url" content="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/12/post1.html">
+<meta property="og:site_name" content="AK’s Dev Wiki">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-06-12T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="토비의 스프링 - 2-4장 스프링 @MVC">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"aken5887"},"dateModified":"2023-06-12T00:00:00+00:00","datePublished":"2023-06-12T00:00:00+00:00","description":"스프링 MVC와 DispatcherServlet","headline":"토비의 스프링 - 2-4장 스프링 @MVC","mainEntityOfPage":{"@type":"WebPage","@id":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/12/post1.html"},"url":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/12/post1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/assets/images/favicon/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-6312418501184620",
+      enable_page_level_ads: true
+    });
+  </script><link type="application/atom+xml" rel="alternate" href="https://aken5887.github.io/jekyll-theme-yat/feed.xml" title="AK's Dev Wiki">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="AK's Dev Wiki" src="/assets/images/favicon/favicon.ico" onerror="this.style.display='none'">
+  AK's Dev Wiki
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/archives.html">아카이브</a><a class="page-link" href="/jekyll-theme-yat/categories.html">카테고리</a><a class="page-link" href="/jekyll-theme-yat/tags.html">태그별</a>
+
+
+
+
+
+
+
+
+
+<!--              <span class="page-link">-->
+<!--
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->
+<!--              </span>-->
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('false' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">토비의 스프링 - 2-4장 스프링 @MVC</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-06-12T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Jun 12, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 10 mins</span>
+  </p>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#%ED%86%A0%EB%B9%84%EC%9D%98%EC%8A%A4%ED%94%84%EB%A7%81">#토비의스프링</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="스프링-mvc와-dispatcherservlet">스프링 MVC와 DispatcherServlet</h1>
+
+<ul>
+  <li>스프링은 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>과 7가지의 전략을 기반으로 한 MVC 프레임워크를 제공한다.
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">HandlerMapping</code></li>
+      <li><code class="language-plaintext highlighter-rouge">HandlerAdapter</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ViewResolver</code></li>
+      <li><code class="language-plaintext highlighter-rouge">HandlerExceptionResolver</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ThemeResolver</code></li>
+      <li><code class="language-plaintext highlighter-rouge">LocaleResolver</code></li>
+      <li><code class="language-plaintext highlighter-rouge">RequestToViewNameTranslator</code></li>
+    </ol>
+  </li>
+  <li>스프링 MVC 프레임워크의 장점은 유연한 확장이 가능하도록 설계된 MVC 엔진인 <strong><code class="language-plaintext highlighter-rouge">DispatcherServlet</code></strong>이다.</li>
+</ul>
+
+<h1 id="41-requestmapping-핸들러-매핑">4.1 @RequestMapping 핸들러 매핑</h1>
+
+<hr>
+
+<ul>
+  <li>@MVC의 가장 큰 특징
+    <ul>
+      <li>핸들러 매핑과 핸들러 어댑터의 대상이 오브젝트가 아니라 메소드이다.</li>
+    </ul>
+  </li>
+  <li>@MVC 등장이전
+    <ul>
+      <li>컨트롤러 타입을 비교해서 컨트롤러를 선택, 타입에 정의된 메소드를 통해 실행한다.</li>
+    </ul>
+  </li>
+  <li>@MVC 등장이후
+    <ul>
+      <li>애노테이션으로 대체 하였다.</li>
+    </ul>
+  </li>
+  <li>@MVC 핸들러 매핑을 위해서는 <strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong>이 필요하다.
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong>은 핸들러 매핑의 기본 전략 중 하나이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="411-클래스메소드-결합-매핑정보">4.1.1 클래스/메소드 결합 매핑정보</h2>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong>의 핵심은 매핑정보로 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 애노티에션을 활용한다는 점이다.</li>
+  <li>타입과 메소드 레벨에 붙은 정보를 결합하여 최종 매핑 정보를 생성한다.</li>
+</ul>
+
+<h3 id="requestmapping-애노테이션">
+<code class="language-plaintext highlighter-rouge">@RequestMapping</code> 애노테이션</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">String[] value()</code> : URL 패턴
+    <ul>
+      <li>하나 이상의 URL 패턴을 지정할 수 있다.</li>
+      <li>디폴트 접미어 패턴이 적용 된다.
+        <ul>
+          <li>확장자가 붙지 않고, / 로 끝나지도 않은 URL 패턴</li>
+          <li>@RequestMapping(“/hello”)
+            <ul>
+              <li>/helllo.do, /hello.html, /hello/ .. 모두 매핑됨</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>매핑조건을 만족하는 경우가 여러 개가 있을 때는 좀 더 많은 조건을 만족시키는 쪽이 우선된다.</li>
+</ul>
+
+<h2 id="412-타입-상속과-매핑">4.1.2 타입 상속과 매핑</h2>
+
+<hr>
+
+<ul>
+  <li>서브 클래스에서 재정의하지 않는 한 <code class="language-plaintext highlighter-rouge">@RequesetMapping</code> 정보는 상속되며 유지된다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@RequestMapping</code>을 인터페이스 레벨에서 부여하면, 타입 상속(인터페이스 구현)을 통해 공통 매핑정보를 일괄적으로 적용할 수 있다.</li>
+</ul>
+
+<h1 id="42-controller">4.2 Controller</h1>
+
+<hr>
+
+<ul>
+  <li>
+    <p><del>DefaultAnnotationHandlerMapping</del> → <strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong></p>
+
+    <p><img src="/assets/images/posts/2023-06-12-post1/Untitled.png" alt="Untitled"></p>
+
+    <p>사용자 요청을 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 정보를 활용해서 컨트롤러 빈의 메소드에 매핑한다.</p>
+  </li>
+  <li>
+    <p><strong><del>AnnotationMethodHandlerAdapter</del> -&gt; <code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdpater</code></strong></p>
+
+    <p><img src="/assets/images/posts/2023-06-12-post1/Untitled%201.png" alt="Untitled"></p>
+
+    <p>매핑된 메소드를 실제로 호출하는 역할을 담당한다.</p>
+  </li>
+</ul>
+
+<p>💡 <strong>컨트롤러가 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>으로부터 실행되는 과정</strong></p>
+
+<p>핸들러 어댑터는 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 로 부터 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code> 와 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 를 제공 받아 컨트롤러가 사용하는 파라미터 타입으로 변환해서 제공해 준다. 그리고 컨트롤러 로부터 받은 결과를 <code class="language-plaintext highlighter-rouge">ModelAndview</code> 타입의 오브젝트에 담아서 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>에 넘겨준다.</p>
+
+<p>💡 최적화된 메소드 설계</p>
+
+<p>스프링은 메소드의 파라미터와 리턴 값이 어떻게 선언되었는지 살펴보고, 이를 이용해 적절한 파라미터 값을 준비해서 호출해준다.</p>
+
+<p>리턴 값도 타입에 따라 적절한 방식으로 사용한다.</p>
+
+<h2 id="421-메소드-파라미터-종류">4.2.1 메소드 파라미터 종류</h2>
+
+<hr>
+
+<p>스프링은 파라미터의 타입과 이름, 애노테이션 정보를 참고해서 그에 맞는 파라미터 값을 제공해준다.</p>
+
+<h3 id="httpservletrequest-httpservletresponse">HttpServletRequest, HttpServletResponse</h3>
+
+<h3 id="httpsession">HttpSession</h3>
+
+<h3 id="inputstream-reader-outputstream-writer">InputStream, Reader, OutputStream, Writer</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">HttpServletRequest</code>의 <code class="language-plaintext highlighter-rouge">getOutputStrem(…)</code>으로 가져올 수 있는 출력용 콘텐트 스트림 또는 Writer 타입 오브젝트를 받을 수 있다.</li>
+</ul>
+
+<h3 id="pathvariable">@PathVariable</h3>
+
+<h3 id="requestparam">@RequestParam</h3>
+
+<ul>
+  <li>선언된 인자는 기본적으로 필수 값으로 설정된다. 인자 값이 선택인 경우 <code class="language-plaintext highlighter-rouge">required=false</code> 를 사용한다.</li>
+  <li>애노테이션은 생략이 가능하다.</li>
+</ul>
+
+<h3 id="cookievalue">@CookieValue</h3>
+
+<ul>
+  <li>선언된 인자는 기본적으로 필수 값으로 설정된다. 인자 값이 선택인 경우 <code class="language-plaintext highlighter-rouge">required=false</code> 를 사용한다.</li>
+</ul>
+
+<h3 id="requestheader">@RequestHeader</h3>
+
+<ul>
+  <li>헤더 정보를 메소드 파라미터에 바인딩 한다.</li>
+  <li>선언된 인자는 기본적으로 필수 값으로 설정된다. 인자 값이 선택인 경우 <code class="language-plaintext highlighter-rouge">required=false</code> 를 사용한다.</li>
+</ul>
+
+<h3 id="map-model-modelmap">Map, Model, ModelMap</h3>
+
+<ul>
+  <li>모두 모델정보를 담는 데 사용할 수 있는 오브젝트가 전달된다.</li>
+  <li>파라미터로 정의하여 <strong>핸들러 어댑터에서 미리 만들어 제공해주는 것</strong>을 사용하는 것이 편리하다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">Model</code>, <code class="language-plaintext highlighter-rouge">ModelMap</code> 모두 <code class="language-plaintext highlighter-rouge">addAttribute(…)</code> 메소드를 제공해 준다.</li>
+</ul>
+
+<h3 id="modelattribute">@ModelAttribute</h3>
+
+<ul>
+  <li>메소드 레벨, 메소드 파라미터에도 부여할 수 있다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code>가 붙은 인자는 모델 맵에 담겨서 뷰에 전달되는 모델 오브젝트의 한가지로서, 별도의 설정 없이도 자동으로 뷰에 전달된다.</li>
+  <li>스프링은 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code>가 붙은 파라미터 타입의 오브젝트를 만들고 프로퍼티를 통해 요청 파라미터를 넣어준다.</li>
+  <li>
+<strong>@ModelAttribute 애노테이션도 생략이 가능하다!!…</strong>
+    <ul>
+      <li>스프링은 <code class="language-plaintext highlighter-rouge">String</code>, <code class="language-plaintext highlighter-rouge">int</code>등 기본 타입은 <code class="language-plaintext highlighter-rouge">@RequetParam</code>이 생략된 것으로 보고, 그 외의 복잡한 오브젝트는 모두 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code>가 생략됐다고 간주한다.</li>
+      <li>가능한 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code>, <code class="language-plaintext highlighter-rouge">@RequestParam</code>은 생략하지 않고 사용하는 것을 권장한다. (인자의 기능과 역할이 명시적이고 뚜렷하다.)</li>
+    </ul>
+  </li>
+  <li>
+<strong>컨트롤러가 리턴하는 모델에 파라미터로 전달된 오브젝트를 자동으로 추가한다. 이때 모델 이름은 파라미터 타입의 이름을 따른다.</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 애노테이션만으로도 모델 오브젝트를 모델 맵에 추가해줌</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="참고-modelattribute가-붙은-모델과-그-밖에-모델의-차이">[참고] @ModelAttribute가 붙은 모델과 그 밖에 모델의 차이</h3>
+<ol>
+  <li>웹 페이지의 폼 정보처럼 컨트롤러가 전달 받아 내부 로직에 사용하고, 필요에 따라 다시 화면에 출력하기도 하는 요청 정보이다.</li>
+  <li>@ModelAttribute는 1과 같이 컨트롤러에 전달 받는 오브젝트의 형태의 정보를 가르킨다.</li>
+  <li>
+<strong>커맨드 오브젝트</strong> : 하나의 오브젝트에 클라이언트의 요청정보를 한번에 담아 전달하는 것을 커맨드 패턴에서 말하는 커맨트 오브젝트라 한다.</li>
+</ol>
+
+<h3 id="error-bindingresult">Error, BindingResult</h3>
+
+<ul>
+  <li>변환이 불가능한 타입의 요청 파라미터가 들어온 경우
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">@RequestParam</code> → HTTP 400 - Bad Request 응답이 클라이언트로 전달한다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code> → 타입 변환 중에 발생한 예외가 <code class="language-plaintext highlighter-rouge">BindException</code> 타입의 오브젝트에 담겨서 컨트롤러로 전달 된다. 즉, 타입 변환 문제를 바로 에러 처리하지 않는다.
+        <ul>
+          <li>컨트롤러는 적절한 에러 페이지를 출력하거나, 친절한 에러 메세지를 통해서 사용자가 폼을 다시 수정할 기회를 줘야 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code>를 통해 폼의 정보를 전달 받을 때는 <code class="language-plaintext highlighter-rouge">Errors</code> 또는 <code class="language-plaintext highlighter-rouge">BindingResult</code> 타입의 파라미터를 함께 사용함.
+    <ul>
+      <li>이 두 가지 타입의 파라미터는 반드시 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 파라미터 뒤에 나와야 한다. 바로 앞에 있는 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 파라미터 검증 작업에서 발생한 오류만 전달 해주기 때문이다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@GeteMapping</span><span class="o">(</span><span class="s">"/result"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">result</span><span class="o">(</span><span class="nd">@ModelAttribute</span> <span class="nc">ResultRequest</span> <span class="n">req</span><span class="o">,</span> <span class="nc">BindingResult</span> <span class="n">bindingResult</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">bindingResult</span><span class="o">.</span><span class="na">hasError</span><span class="o">()){</span>
+      <span class="c1">// 에러 처리 메세지 출력</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="requestbody">@RequestBody</h3>
+
+<ul>
+  <li>이 애노테이션이 붙은 파라미터에는 HTTP 요청 Body 부분이 그대로 전달 된다.</li>
+  <li>XML이나 JSON 기반의 메세지를 사용하는 요청의 경우에는 이 방법이 매우 유용</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">AnnotationMethodHandlerAdapter</code>에는 <code class="language-plaintext highlighter-rouge">HttpMessageConverter</code> 타입의 “메세지 변환기”가 여러 개 등록되어 있다.
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">@RequestBody</code>가 붙은 파라미터가 있으면 HTTP 요청의 미디어 타입과 파라미터 타입을 우선 확인 한다.</li>
+      <li>메세지 변환기 중에서 해당 미디어 타입과 파라미터 타입을 처리할 수 있는 것이 있다면, HTTP 요청의 본문 부분을 통째로 변환해서 지정된 메소드 파라미터로 전달해준다.</li>
+    </ol>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MessageConverter</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ByteArrayHttpMessageConverter</code></li>
+      <li><code class="language-plaintext highlighter-rouge">StringHttpMessageConverter</code></li>
+      <li><code class="language-plaintext highlighter-rouge">SourceHttpMessageConverter</code></li>
+      <li><code class="language-plaintext highlighter-rouge">AllEncompassingFormHttpMessageConverter</code></li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@RequestBody</code>는 보통 <code class="language-plaintext highlighter-rouge">@ResponseBody</code>와 함께 사용된다.</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdapter</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// spring 5.3</span>
+  <span class="kd">public</span> <span class="nf">RequestMappingHandlerAdapter</span><span class="o">()</span> <span class="o">{</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">messageConverters</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="mi">4</span><span class="o">);</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">messageConverters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ByteArrayHttpMessageConverter</span><span class="o">());</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">messageConverters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">StringHttpMessageConverter</span><span class="o">());</span>
+   <span class="k">if</span> <span class="o">(!</span><span class="n">shouldIgnoreXml</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">messageConverters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">SourceHttpMessageConverter</span><span class="o">&lt;&gt;());</span>
+    <span class="o">}</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="nc">Error</span> <span class="n">err</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// Ignore when no TransformerFactory implementation is available</span>
+  <span class="o">}</span>
+   <span class="o">}</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">messageConverters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">AllEncompassingFormHttpMessageConverter</span><span class="o">());</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="참고-handleradapter-동작과정">[참고] HandlerAdapter 동작과정</h3>
+
+<h3 id="요청-처리-시-handleradapter의-동작-과정">요청 처리 시 HandlerAdapter의 동작 과정</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMapping</code>을 통해 적절한 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code>를 찾으면 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code>는 Controller로 넘겨줄 파라미터를 결정하기 위해 이 작업을 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code>에게 위임합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code>는 <code class="language-plaintext highlighter-rouge">HttpMessageConverter</code>에게 HTTP Request Body를 특정 타입의 객체로 변환해주기를 요청합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HttpMessageConverter</code>는 HTTP Request Body를 특정 타입의 객체로 변환합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code>는 변환된 데이터를 전달 받아서 이 데이터를 다시 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code>에게 전달합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerAdapter</code>는 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code>로부터 전달 받은 데이터를 핸들러 메서드의 파라미터로 포함 시킨 후, 핸들러 메서드를 호출합니다.</li>
+</ul>
+
+<h3 id="응답-처리-시-handleradapter의-동작-과정">응답 처리 시 HandlerAdapter의 동작 과정</h3>
+
+<ul>
+  <li>핸들러 메서드가 응답으로 전달할 데이터를 리턴합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodReturnValueHandler</code>는 핸들러 메서드로부터 전달 받은 응답 데이터를 <code class="language-plaintext highlighter-rouge">HttpMessageConverter</code>에게 전달합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HttpMessageConverter</code>는 <code class="language-plaintext highlighter-rouge">HandlerMethodReturnValueHandler</code>로부터 전달 받은 데이터를 HTTP Response Body에 포함되는 형식의 데이터로 변환합니다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodReturnValueHandler</code>는 <code class="language-plaintext highlighter-rouge">HttpMessageConverter</code>로부터 전달 받은 데이터를 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code>에게 전달합니다.</li>
+</ul>
+
+<p><img src="/assets/images/posts/2023-06-12-post1/Untitled%202.png" alt="Untitled"></p>
+
+<p><em>출처 : <a href="https://velog.io/@yoho98/HTTP-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%BB%A8%EB%B2%84%ED%84%B0HttpMessageConverterfeat.-Argumentresolver-ReturnValueHandler">https://velog.io/@yoho98/HTTP-메시지-컨버터HttpMessageConverterfeat.-Argumentresolver-ReturnValueHandler</a></em></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerAdapter</code> → <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code> 호출
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code> - <code class="language-plaintext highlighter-rouge">doService</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code> - <code class="language-plaintext highlighter-rouge">doDispatch</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdapter</code> - <code class="language-plaintext highlighter-rouge">handleInternal</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdapter</code> - <code class="language-plaintext highlighter-rouge">invokeHandlerMethod</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">ServletInvocableHandlerMethod</code> - <code class="language-plaintext highlighter-rouge">invokeAndHandle</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">InvocableHandlerMethod</code> - <code class="language-plaintext highlighter-rouge">invokeForRequest</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">InvocableHandlerMethod</code>  - <code class="language-plaintext highlighter-rouge">getMethodArgumentValues</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolverComposite</code> - <code class="language-plaintext highlighter-rouge">resolveArgument</code>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="nd">@Nullable</span>
+  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">resolveArgument</span><span class="o">(</span><span class="nc">MethodParameter</span> <span class="n">parameter</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">ModelAndViewContainer</span> <span class="n">mavContainer</span><span class="o">,</span>
+    <span class="nc">NativeWebRequest</span> <span class="n">webRequest</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">WebDataBinderFactory</span> <span class="n">binderFactory</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+  
+    <span class="nc">HandlerMethodArgumentResolver</span> <span class="n">resolver</span> <span class="o">=</span> <span class="n">getArgumentResolver</span><span class="o">(</span><span class="n">parameter</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">resolver</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Unsupported parameter type ["</span> <span class="o">+</span>
+      <span class="n">parameter</span><span class="o">.</span><span class="na">getParameterType</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"]. supportsParameter should be called first."</span><span class="o">);</span>
+     <span class="o">}</span>
+    <span class="k">return</span> <span class="n">resolver</span><span class="o">.</span><span class="na">resolveArgument</span><span class="o">(</span><span class="n">parameter</span><span class="o">,</span> <span class="n">mavContainer</span><span class="o">,</span> <span class="n">webRequest</span><span class="o">,</span> <span class="n">binderFactory</span><span class="o">);</span>
+<span class="o">}</span>                    
+</code></pre></div>    </div>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribuite</code> 이용시 <code class="language-plaintext highlighter-rouge">ModelAttributeMethodProcessor</code> - <code class="language-plaintext highlighter-rouge">resolveArgument</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ResponseBody</code> 이용시 <code class="language-plaintext highlighter-rouge">RequestResponseBodyMethodProcessor</code> - <code class="language-plaintext highlighter-rouge">resolveArgument</code>
+</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ReturnValueHandler</code>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ServletInvocableHandlerMethod</code> - <code class="language-plaintext highlighter-rouge">invokeAndHandle</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">HandlerMethodReturnValueHandlerComposite</code> - <code class="language-plaintext highlighter-rouge">handleReturnValue</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribuite</code> 이용시 <code class="language-plaintext highlighter-rouge">ModelAttributeMethodProcessor</code> - <code class="language-plaintext highlighter-rouge">handleReturnValue</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">@ResponseBody</code> 이용시 <code class="language-plaintext highlighter-rouge">RequestResponseBodyMethodProcessor</code> - <code class="language-plaintext highlighter-rouge">handleReturnValue</code>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="422-리턴-타입-종류">4.2.2 리턴 타입 종류</h2>
+
+<p>컨트롤러가 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>에 돌려줘야 하는 정보는 모델과 뷰다.</p>
+
+<p>핸들러 어댑터를 거쳐서 최종적으로 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>에 돌아갈 때는 <code class="language-plaintext highlighter-rouge">ModelAndView</code> 타입으로 리턴 값이 전달된다.</p>
+
+<h3 id="자동-추가-모델-오브젝트와-자동생성-뷰-이름">자동 추가 모델 오브젝트와 자동생성 뷰 이름</h3>
+
+<p>메소드 리턴 타입에 상관없이 조건에 맞으면 모델에 자동으로 추가 되는 오브젝트 목록</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 모델 오브젝트</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">Map, Model, ModelMap</code> 파라미터 오브젝트
+    <ul>
+      <li>타입의 인자를 사용하면 미리 생성된 모델 맵 오브젝트를 전달 받아서 오브젝트를 추가할 수 있다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 메소드
+    <ul>
+      <li>오브젝트 클래스 내의 다른 컨트롤러 메소드의 모델에 자동으로 추가된다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">BindingResult</code>
+    <ul>
+      <li>모델 맵에 추가될 때 키는 <code class="language-plaintext highlighter-rouge">org.springframework.validation.BindingResult.모델이름</code>
+</li>
+      <li>핸들러 인터셉트를 이용해 바인딩 결과를 로깅하거나 분석할 때 사용할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="responsebody">@ResponseBody</h3>
+
+<p><code class="language-plaintext highlighter-rouge">@ReponseBody</code>가 메소드 레벨에 부여되면 메소드가 리턴하는 오브젝트는 메세지 컨버터를 통해  바로 HTTP 응답의 메세지 본문으로 전환된다.</p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/spring/2023/06/11/post1.html" title="토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC">토비의 스프링 - 2-3장 스프링 웹...</a><a class="next" href="/jekyll-theme-yat/spring/2023/06/14/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">토비의 스프링 - 2-4장 스프링 @MVC...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/02/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">토비의 스프링 - 2장 테스트</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/troubleshooting/2023/08/14/TroubleShooting1.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/05/27/post2.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">Proxy와 Spring</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/03/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">토비의 스프링 - 4장 예외</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<!----><script src="https://utteranc.es/client.js" repo="aken5887/aken5887.github.io" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async>
+      </script>
+    </div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    var topHeadId = 1;
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      var headTagName = h.tagName.toLowerCase();
+      var headId = h.getAttribute('id');
+
+      if(headTagName == 'h1'){
+        topHeadId++;
+      }
+      menuHTML += (
+        '<li class="h-' + headTagName + ' h1-' + topHeadId + '">'
+        + '<a href="#h-' + headId + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      var topHeadId = '';
+
+      if(index > -1){
+        topHeadId = items[index].classList.item(1);
+      }
+
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h1')
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h1')
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (
+            (!item.classList.contains('h-h1') && !item.classList.contains('h-h2'))
+             || (item.classList.contains('h-h2') && !item.classList.contains(topHeadId))
+            ) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        item.style.display = '';
+      }
+
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
+          item.style.display = 'none';
+        }
+      }
+
+      for(var i = 0; i < items.length; i++){
+        item = items[i];
+        if(item.classList.contains(topHeadId) && item.classList.contains('h-h2')){
+          item.style.display = '';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2023-2023 aken5887</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

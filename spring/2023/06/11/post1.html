@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC | AK’s Dev Wiki</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC">
+<meta name="author" content="aken5887">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="3.1 스프링의 웹 프레젠테이션 계층 기술">
+<meta property="og:description" content="3.1 스프링의 웹 프레젠테이션 계층 기술">
+<link rel="canonical" href="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/11/post1.html">
+<meta property="og:url" content="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/11/post1.html">
+<meta property="og:site_name" content="AK’s Dev Wiki">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-06-11T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"aken5887"},"dateModified":"2023-06-11T00:00:00+00:00","datePublished":"2023-06-11T00:00:00+00:00","description":"3.1 스프링의 웹 프레젠테이션 계층 기술","headline":"토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC","mainEntityOfPage":{"@type":"WebPage","@id":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/11/post1.html"},"url":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/11/post1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/assets/images/favicon/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-6312418501184620",
+      enable_page_level_ads: true
+    });
+  </script><link type="application/atom+xml" rel="alternate" href="https://aken5887.github.io/jekyll-theme-yat/feed.xml" title="AK's Dev Wiki">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="AK's Dev Wiki" src="/assets/images/favicon/favicon.ico" onerror="this.style.display='none'">
+  AK's Dev Wiki
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/archives.html">아카이브</a><a class="page-link" href="/jekyll-theme-yat/categories.html">카테고리</a><a class="page-link" href="/jekyll-theme-yat/tags.html">태그별</a>
+
+
+
+
+
+
+
+
+
+<!--              <span class="page-link">-->
+<!--
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->
+<!--              </span>-->
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('false' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-06-11T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Jun 11, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 20 mins</span>
+  </p>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#%ED%86%A0%EB%B9%84%EC%9D%98%EC%8A%A4%ED%94%84%EB%A7%81">#토비의스프링</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="31-스프링의-웹-프레젠테이션-계층-기술">3.1 스프링의 웹 프레젠테이션 계층 기술</h1>
+
+<hr>
+
+<h2 id="312-스프링-mvc와-dispatcherservlet-전략">3.1.2 스프링 MVC와 DispatcherServlet 전략</h2>
+
+<hr>
+
+<h3 id="dispatcherservlet과-mvc-아키텍처">
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>과 MVC 아키텍처</h3>
+
+<ul>
+  <li>MVC 아키텍처는 보통 프론트 컨트롤러 패턴과 함께 사용한다.</li>
+  <li>프론트 컨트롤러는 프레젠테이션 게층 제일 앞에 둬서 서버로 들어오는 모든 요청을 먼저 받아 처리한다.
+    <ul>
+      <li>요청 → 공통 작업 수행 → 세부 컨트롤러로 작업 위임 → 뷰 선택 → 최종 결과 생성</li>
+      <li>예외가 발생했을 때 이를 일관된 방식으로 처리한다.</li>
+    </ul>
+  </li>
+  <li>스프링 서블릿/MVC의 핵심은 <strong><code class="language-plaintext highlighter-rouge">DispatcherServlet</code></strong> 이라는 프론트 컨트롤러 이다.
+    <ul>
+      <li>MVC 아키텍처로 구성된 프레젠테이션 계층을 만들 수 있도록 설계되어 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="http-요청-부터-결과-응답까지-구조"><strong>HTTP 요청 부터 결과 응답까지 구조</strong></h3>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code> - HTTP 요청 접수
+    <ul>
+      <li>자바의 서블릿 컨테이너는 HTTP 프로토콜을 통해 들어오는 요청이 스프링의 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 에 할당된 것이라면(url pattern 등), HTTP 요청정보를 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 에 전달해준다.</li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">web.xml</code>에는 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>이 전달 받을 URL 패턴이 정의되어 있다.</p>
+
+        <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;servlet-mapping&gt;</span>
+    <span class="nt">&lt;servlet-name&gt;</span>Spring MBC Dispatcher Servlet<span class="nt">&lt;/servlet-name&gt;</span>
+    <span class="nt">&lt;url-pattern&gt;</span>/*<span class="nt">&lt;/url-patter&gt;</span>
+  <span class="nt">&lt;/servlet-mapping&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>에서 컨트롤러로 HTTP 요청 위임
+    <ul>
+      <li>
+<strong>핸들러 매핑</strong>
+        <ul>
+          <li>핸들러 = 컨트롤러 or 컨트롤러의 메소드</li>
+          <li>핸들러 매핑 전략은 DI를 통해 얼마든지 확장 가능하다.
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 그 자체로 스프링 컨텍스트에 등록된 빈은 아니라 DI가 일어나진 않지만, DI 가 적용되는 것처럼 서블릿 애플리케이션 컨텍스트의 빈을 가져와 사용할 수 있다.</li>
+              <li>특정 인터페이스를 구현한 빈을 자동으로 찾아오는 <strong>자동 와이어링 기법</strong>을 이용한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>핸들러 어댑터</strong>
+        <ul>
+          <li>핸들러 어댑터 전략을 통해 결정하고 DI를 통해 자유롭게 확장 가능하다.</li>
+          <li>어댑터가 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>로 부터 전달받은 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>를 적절히 변환해서, 컨트롤러의 메소드가 받을 수 있는 파라미터로 변환해서 전달해준다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>컨트롤러 모델 생성과 정보 등록
+    <ol>
+      <li>사용자의 요청을 해석</li>
+      <li>실제 비지니스 로직을 수행하도록 서비스 계층에 작업을 위임</li>
+      <li>결과를 받아서 모델을 생성</li>
+      <li>어떤 뷰를 사용할 지 결정</li>
+    </ol>
+  </li>
+  <li>컨트롤러 결과 리턴 - 모델과 뷰
+    <ul>
+      <li>컨트롤러가 뷰 오브젝트를 직접 리턴한다.</li>
+      <li>뷰의 논리적인 이름을 리턴하는 경우, DispatcherServlet의 전략인 뷰 리졸버가 이를 이용해 뷰 오브젝트를 생성하여 리턴한다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServleet</code>의 뷰 호출과 모델 참조
+    <ul>
+      <li>브라우저에 나타날 HTML을 생성
+        <ul>
+          <li>동적으로 생성되도록 표시된 부분을 모델의 내용을 참고해서 내용을 채움</li>
+        </ul>
+      </li>
+      <li>뷰 작업을 통한 최종 결과물은 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 오브젝트에 담긴다.</li>
+    </ul>
+  </li>
+  <li>HTTP 응답 돌려주기
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 등록된 <strong>후 처리기</strong>가 있는지 확인
+        <ul>
+          <li>등록된 후 처리기가 있다면 후 처리기에서 후속작업을 진행한다.</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">HttpServletResponse</code>에 담긴 최종 결과를 서블릿 컨테이너에게 돌려준다.</li>
+      <li>서블릿 컨테이너는 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code>에 담긴 정보를 HTTP 응답으로 만들어 사용자의 브라우저에 전송 후 종료한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="dispatcherservlet의-di-가능한-전략">
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 DI 가능한 전략</h3>
+
+<p>🏳  <strong>HandlerMapping</strong></p>
+
+<ul>
+  <li>핸들러 매핑은 URL과 요청 정보를 기준으로 어떤 <strong>핸들러 오브젝트(컨트롤러)</strong>를 사용할 것 인지를 결정하는 로직을 담당한다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">HandlerMapping</code> 인터페이스를 구현해서 만들 수 있다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 하나 이상의 핸들러 매핑을 가질 수 있다.</li>
+  <li>2가지 기본 전략
+    <ul>
+      <li>BeanNameUrlHandlerMapping</li>
+      <li>
+<del>DefaultAnnotationHandlerMapping</del> → <strong>RequestMappingHandlerMapping</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p>🏳 <strong>HandlerAdapter</strong></p>
+
+<ul>
+  <li>핸들러 어댑터는 핸들러 매핑으로 선택한 핸들러 오브젝트(컨트롤러)를 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>가 호출할 때 사용한다. 컨트롤러 타입에 적합한 어댑터를 가져다가 컨트롤러를 호출한다.</li>
+  <li>3가지 기본 전략
+    <ul>
+      <li>HttpRequestHandlerAdapter</li>
+      <li>SimpleControllerHandlerAdapter</li>
+      <li><strong>RequestMappingHandlerAdapter</strong></li>
+    </ul>
+  </li>
+  <li>핸들러 매핑과 어댑터는 서로 관련이 있을 수도 없을 수 도 있다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">@RequestMapping</code>, <code class="language-plaintext highlighter-rouge">@Controller</code> 애노테이션을 통해 정의되는 컨트롤러의 경우 아래 두가지 핸들러 매핑 &amp; 핸들러만 적용된다. (⭐️)
+    <ul>
+      <li><strong>RequestMappingHandlerMapping</strong></li>
+      <li><strong>RequestMappingHandlerAdapter</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p>🏳 <strong>HandlerExceptionResolver</strong></p>
+
+<ul>
+  <li>예외가 발생했을 때 이를 처리하는 로직을 갖고 있음</li>
+  <li>기본 전략
+    <ul>
+      <li><strong>ExceptionHandlerExceptionResolver</strong></li>
+      <li>ResponseStatusExceptionResolver</li>
+      <li>DefaultHandlerExceptionResolver</li>
+    </ul>
+  </li>
+</ul>
+
+<p>🏳 <strong>ViewResolver</strong></p>
+
+<ul>
+  <li>뷰 리졸버는 컨트롤러가 리턴한 뷰 이름을 참고해서 적절한 뷰 오브젝트를 찾아주는 로직을 가진 전략 오브젝트 이다.</li>
+  <li>디폴트 전략
+    <ul>
+      <li>InternalResourceViewResolver</li>
+    </ul>
+  </li>
+</ul>
+
+<p>🏳 기타 Resolver</p>
+
+<ul>
+  <li>LocaleResolver</li>
+  <li>ThemeResolver</li>
+  <li>RequestToViewNameTranslater
+    <ul>
+      <li>컨트롤러에서 뷰 이름이나 뷰 오브젝트를 제공해주지 않았을 때, URL과 같은 요청정보를 참고해서 자동으로 뷰 이름을 생성해주는 전략</li>
+      <li>기본 전략
+        <ul>
+          <li>DefaultRequestToViewNameTranslator</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="dispatcherservlet">DispatcherServlet</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 각 전략의 디폴트 설정을 <code class="language-plaintext highlighter-rouge">DispatherServlet.properties</code>라는 전략 설정파일로 부터 가져와서 초기화 한다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 서블릿 컨테이너가 생성하고 관리하는 오브젝트이지, 스프링의 컨텍스트에서 관리하는 빈 오브젝트가 아니다.
+    <ul>
+      <li>서블릿 컨텍스트 컨테이너 - Servlet Context Container</li>
+      <li>빈 처럼 사용할 수는 있지만, 빈 오브젝트는 아니다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 내부에 서블릿 웹 애플리케이션 컨텍스트를 갖고 있고, 내부 컨텍스트로 부터 추가/수정한 전략이 담긴 빈 오브젝트가 있는지 찾아보고, 있다면 이를 가져와서 디폴트 전략을 대신하여 사용 한다.</li>
+</ul>
+
+<h1 id="32-스프링-웹-애플리케이션-환경-구성">3.2 스프링 웹 애플리케이션 환경 구성</h1>
+
+<hr>
+
+<h2 id="321-간단한-스프링-웹-프로젝트-생성">3.2.1 간단한 스프링 웹 프로젝트 생성</h2>
+
+<hr>
+<h3 id="참고">[참고]</h3>
+<p>Q. 왜  <code class="language-plaintext highlighter-rouge">hello.jsp</code> 파일을 <code class="language-plaintext highlighter-rouge">WEB-INF</code> 아래에 넣을까?</p>
+
+<p>A.  웹루트 <code class="language-plaintext highlighter-rouge">/WEB-INF/</code> 아래는 URL을 통해 직접 접근하기 불가능하기 때문에, JSP 파일을 해당 경로에 위치하는 것이 좋다. 
+<code class="language-plaintext highlighter-rouge">InternalResourceView</code>는 내부적으로 WEB-INF 아래에 있는 JSP도 실행시킬 수 있다.</p>
+
+<h1 id="33-컨트롤러">3.3 컨트롤러</h1>
+
+<hr>
+
+<h2 id="331-컨트롤러의-종류와-핸들러-어댑터">3.3.1 컨트롤러의 종류와 핸들러 어댑터</h2>
+
+<hr>
+
+<p>스프링 MVC가 지원하는 컨트롤러 종류는 4가지이다. 이에 따른 핸들러 어댑터도 4가지 종류가 존재한다.</p>
+
+<p><strong>💡 디폴트 전략을 사용하는 경우 핸들러 어댑터를 별도로 빈으로 등록해 줄 필요가 없음</strong></p>
+
+<h3 id="servlet과-simpleservlethandleradapter">Servlet과 SimpleServletHandlerAdapter</h3>
+
+<p>서블릿을 스프링 MVC 컨트롤러로 사용한다.</p>
+
+<h3 id="httprequesthandler와-httprequesthandleradapter">HttpRequestHandler와 HttpRequestHandlerAdapter</h3>
+
+<p>모델과 뷰 개념이 없는 HTTP 기반의 로우레벨 서비스를 개발할 때 이용한다.</p>
+
+<h3 id="controller와-simplecontrollerhandleradapter">Controller와 SimpleControllerHandlerAdapter</h3>
+
+<p>Controller 인터페이스를 구현해서 만드는게 원칙이나, AbstractController를 상속해서 컨트롤러를 만드는 것을 권장한다.</p>
+
+<h3 id="annotationmethodhandleradapter--requestmappinghandleradapter-스프링-31-이후">
+<del>AnnotationMethodHandlerAdapter</del> → <strong>RequestMappingHandlerAdapter (스프링 3.1 이후)</strong>
+</h3>
+
+<ul>
+  <li>다른 핸들러 어댑터는 특정 인터페이스를 구현한 컨트롤러만 지원하지만, 이 핸들러 어댑터는 지원하는 컨트롤러 타입이 정해져 있지 않다.</li>
+  <li>컨트롤러 타입에 제한이 없는 대신 클래스와 메소드에 붙은 애노테이션의 정보와 메소드 이름, 파라미터, 리턴 타입에 대한 규칙 등을 종합적으로 분석해서 컨트롤러를 선별하고 호출 방식을 결정한다.</li>
+  <li>컨트롤러 하나가 하나 이상의 URL이 매핑 될 수 있있다.
+    <ul>
+      <li>URL의 매핑을 컨트롤러 단위가 아니라 메소드 단위로 가능하게 했다. (스프링 2.5 버전 이후)</li>
+    </ul>
+  </li>
+  <li>다른 핸들러 어댑터와는 다르게 <strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong>과 함께 사용해야 한다.</li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdpater</code> → <code class="language-plaintext highlighter-rouge">handle(…)</code> 메소드</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">protected</span> <span class="nc">ModelAndView</span> <span class="nf">handleInternal</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+    <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="nc">HandlerMethod</span> <span class="n">handlerMethod</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    
+     <span class="nc">ModelAndView</span> <span class="n">mav</span><span class="o">;</span>
+     <span class="n">checkRequest</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+  
+    <span class="c1">// Execute invokeHandlerMethod in synchronized block if required.</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">synchronizeOnSession</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">HttpSession</span> <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getSession</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">session</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+       <span class="nc">Object</span> <span class="n">mutex</span> <span class="o">=</span> <span class="nc">WebUtils</span><span class="o">.</span><span class="na">getSessionMutex</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+       <span class="kd">synchronized</span> <span class="o">(</span><span class="n">mutex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mav</span> <span class="o">=</span> <span class="n">invokeHandlerMethod</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handlerMethod</span><span class="o">);</span>
+       <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// No HttpSession available -&gt; no mutex necessary</span>
+        <span class="n">mav</span> <span class="o">=</span> <span class="n">invokeHandlerMethod</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handlerMethod</span><span class="o">);</span>
+      <span class="o">}</span>
+     <span class="o">}</span>
+     <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">// No synchronization on session demanded at all...</span>
+        <span class="n">mav</span> <span class="o">=</span> <span class="n">invokeHandlerMethod</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handlerMethod</span><span class="o">);</span>
+     <span class="o">}</span>
+    	
+     <span class="k">if</span> <span class="o">(!</span><span class="n">response</span><span class="o">.</span><span class="na">containsHeader</span><span class="o">(</span><span class="no">HEADER_CACHE_CONTROL</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">getSessionAttributesHandler</span><span class="o">(</span><span class="n">handlerMethod</span><span class="o">).</span><span class="na">hasSessionAttributes</span><span class="o">())</span> <span class="o">{</span>
+       <span class="n">applyCacheSeconds</span><span class="o">(</span><span class="n">response</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">cacheSecondsForSessionAttributeHandlers</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">else</span> <span class="o">{</span>
+       <span class="n">prepareResponse</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+      <span class="o">}</span>
+     <span class="o">}</span>
+     <span class="k">return</span> <span class="n">mav</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="332-핸들러-매핑">3.3.2 핸들러 매핑</h2>
+
+<hr>
+
+<p>HTTP 요청정보를 이용해서 이를 처리할 핸들러 오브젝트인 컨트롤러를 찾아주는 기능을 가진 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 전략이다. 핸들러 매핑은 컨트롤러 타입과 상관 없고, 하나의 핸들러 매핑의 여러가지 타입의 컨트롤러를 선택할 수 있다.</p>
+
+<h3 id="beannameurlhandlermapping">BeanNameUrlHandlerMapping</h3>
+
+<p>디폴트 핸들러 매핑의 하나.</p>
+
+<p>빈 이름에 들어 있는 URL을 HTTP 요청의 URL과 비교해서 일치하는 빈을 찾아준다.</p>
+
+<h3 id="controllerbeannamehandlermapping">ControllerBeanNameHandlerMapping</h3>
+
+<p>빈의 아이디나 빈 이름을 이용해 매핑해주는 핸들러 매핑 전략</p>
+
+<p>ControllerBeanNameHandlerMapping은 디폴트 핸들러 매핑이 아니므로 사용하려면 전략 빈으로 등록해줘야 한다.</p>
+
+<p><strong><em>💡</em> <em>특정 전략 클래스를 빈으로 등록 한 경우에는 기본 전략은 모두 무시되는 점 주의!</em></strong></p>
+
+<h3 id="controllerclassnamehandlermapping">ControllerClassNameHandlerMapping</h3>
+
+<p>빈 대신 클래스 이름을 URL에 매핑 해주는 핸들러 매핑 클래스.</p>
+
+<p>디폴트 전략이 아니므로 빈으로 등록해줘야 한다.</p>
+
+<h3 id="simpleurlhandlermapping">SimpleUrlHandlerMapping</h3>
+
+<p>URL과 컨트롤러의 매핑정보를 한곳에 모아놓을 수 있는 핸들러 매핑 전략.</p>
+
+<p>매핑정보는 <code class="language-plaintext highlighter-rouge">SimpleUrlHandlerMapping</code> 빈의 프로퍼티에 넣어 준다. 마찬가지로 디폴트 전략이 아니므로 빈을 등록해야 한다.</p>
+
+<h3 id="defaultannotationhandlermapping--requestmappinghandlermapping">
+<del>DefaultAnnotationHandlerMapping</del> → <strong>RequestMappingHandlerMapping</strong>
+</h3>
+
+<p>핸들러 매핑의 기본적략 중 하나</p>
+
+<p><code class="language-plaintext highlighter-rouge">@RequestMapping</code>이라는 애노테이션을 컨트롤러 클래스나 메소드에 직접 부여하고 이를 이용해 매핑하는 전략이다.</p>
+
+<h2 id="333-핸들러-인터셉터">3.3.3 핸들러 인터셉터</h2>
+
+<hr>
+
+<aside>
+  
+    Q. 핸들러 매핑의 역할 
+    A1. URL과 요청 정보로 부터 핸들러를 찾아주는 것
+    A2. 핸들러 인터셉터를 적용해주는 것
+
+</aside>
+
+<p>핸들러 인터셉터는 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>이 컨트롤러를 호출하기 전과 후에 요청과 응답을 참조하거나 가공할 수 있는 일종의 필터이다. ⇒ 서블릿 필터와 유사한 개념이지만 다르다.</p>
+
+<p>핸들러 매핑은 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 으로부터 매핑 요청 작업을 받으면</p>
+
+<ol>
+  <li>핸들러 실행 체인을 돌려준다.</li>
+  <li>이 핸들러 실행체인은 하나 이상의 핸들러 인터셉터를 거쳐서 컨트롤러가 실행될 수 있도록 구성 되어 있다.</li>
+  <li>핸들러 인터셉터를 등록하지 않았다면 바로 컨트롤러(컨트롤러 메소드)가 실행 된다.</li>
+</ol>
+
+<h3 id="서블릿-필터-vs-핸들러-인터셉터-">서블릿 필터 VS 핸들러 인터셉터 (⭐)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ServletFilter</code> vs <code class="language-plaintext highlighter-rouge">HandlerInterceptor</code></p>
+
+<p><strong>핸들러 인터셉터</strong></p>
+
+<ul>
+  <li>핸들러 인터셉터는 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>, <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 뿐 아니라 컨트롤러 빈 오브젝트, ModelAndView, 발생한 Exception 등 정보를 제공받기  때문에 서블릿 필터보다 더 정교하고 편리하게 만들 수 있다.</li>
+  <li>핸들러 인터셉터 자체가 스프링 빈이기 때문에 DI를 통해 다른 빈을 활용할 수 있다.</li>
+  <li>적용 대상이 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 특정 핸들러 매핑으로 제한된다.</li>
+  <li>web.xml을 수정하지 않아도 되는 장점이 있다.</li>
+  <li>요약 : 스프링 빈으로 등록할 수 있고, 컨트롤러 오브젝트에 접근 가능하며, ModelAndView와 같은 컨트롤러가 리턴하는 정보를 활용할 수 있다.</li>
+</ul>
+
+<p><strong>서블릿 필터</strong></p>
+
+<ul>
+  <li>서블릿 필터는 web.xml에 별도로 등록해줘야 하고 필터 자체는 스프링 빈이 아니다.</li>
+  <li>서블릿 필터는 웹에 들어오는 모든 요청에 적용된다는 장점이 있다.</li>
+</ul>
+
+<h3 id="핸들러-인터셉터-적용">핸들러 인터셉터 적용</h3>
+
+<ol>
+  <li>먼저 핸들러 매핑 클래스를 빈으로 등록한다.</li>
+  <li>핸들러 매핑 빈의 interceptors 프로퍼티를 이용해 핸들러 인터셉터 빈의 레퍼런스를 넣어준다.</li>
+</ol>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org...BeanNameUrlHandlerMapping"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"interceptors"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"simpleInterceptor"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"simpleInterceptor"</span> <span class="na">class=</span><span class="s">"..."</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>핸들러 인터셉터는 기본적으로 핸들러 매핑 단위로 등록된다.</li>
+  <li>하나의 인터셉터를 여러개의 핸들러 매핑에 모두 적용하려면 핸들러 매핑마다 반복적으로 등록해줘야 한다.</li>
+  <li><strong>스프링 3.0 이후로 URL 패턴을 이용해서 모든 핸들러 매핑에 일괄 적용하는 기능이 추가 되었다.</strong></li>
+</ul>
+
+<h3 id="핸들러-인터셉터-대신-컨트롤러에-aop-적용하면-어떨까">핸들러 인터셉터 대신 컨트롤러에 AOP 적용하면 어떨까?</h3>
+
+<p>AOP를 이용해 컨트롤러에 적용할 부가기능을 어드바이스로 만들어서 적용할 수 있다.</p>
+
+<p>하지만, 컨트롤러의 호출 과정에 적용되는 부가기능은 핸들러 인터셉터를 활용하는 편이 낫다.</p>
+
+<ol>
+  <li>포인트 컷 작성이 쉽지 않다.
+    <ul>
+      <li>컨트롤러 타입이 하나로 정해져 있지 않고, 실행 메소드 또한 제각각이다.</li>
+    </ul>
+  </li>
+  <li>파라미터나 리턴 값 또한 일정치 않다.</li>
+</ol>
+
+<p>결론. 타입이 일정치 않고 호출 패턴도 정해져 있지 않은 컨트롤러에 AOP를 적용하기 쉽지 않다.스프링 MVC는 모든 종류의 컨트롤러에 동일한 핸들러 인터셉터를 적용할 수 있게 해주기 떄문에, 컨트롤러 호출에 관련된 부가기능은 핸들러 인터셉터를 활용하는 것이 적합하다.</p>
+
+<h2 id="334-컨트롤러-확장">3.3.4 컨트롤러 확장</h2>
+
+<hr>
+
+<blockquote>
+  <p><em>거추장스러운 클래스 상속보다는 인터페이스를 구현하는 깔끔한 방법으로 컨트롤러를 만들고 싶을 수도 있다. 이런 경우에는 핸들러 어댑터를 직접 구현해서 아예 새로운 컨트롤러 타입을 도입하는 방법을 고려해봐야 한다.</em></p>
+
+</blockquote>
+
+<h3 id="커스텀-컨트롤러-인터페이스와-핸들러-어댑터-개발">커스텀 컨트롤러 인터페이스와 핸들러 어댑터 개발</h3>
+
+<ul>
+  <li>
+    <p>커스텀 핸들러 어댑터를 적용하는 방법은 서블릿 컨텍스트의 빈으로 등록하는 것 부터 시작한다.</p>
+
+    <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.book.toby.controller.SimpleHandlerAdapter"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>핸들러 매핑에서 커스텀 컨트롤러를 찾게 되면 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 현재 등록된 모든 핸들러 어댑터의 <code class="language-plaintext highlighter-rouge">supports(…)</code> 메소드를 호출해서 해당 컨트롤러 타입을 처리할 수 있는지 물어본다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supports</span><span class="o">(</span><span class="nc">Object</span> <span class="n">handler</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">handler</span> <span class="k">instanceof</span> <span class="nc">SimpleController</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>이때 처리할 수 있는 것이 확인되면  <code class="language-plaintext highlighter-rouge">handle(…)</code> 메소드를 호출해서 해당 컨트롤러를 실행할 것이다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">handle</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+        <span class="nc">Object</span> <span class="n">handler</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+      <span class="nc">Method</span> <span class="n">m</span> <span class="o">=</span> <span class="nc">ReflectionUtils</span><span class="o">.</span><span class="na">findMethod</span><span class="o">(</span><span class="n">handler</span><span class="o">.</span><span class="na">getClass</span><span class="o">(),</span> <span class="s">"control"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    
+      <span class="nc">ViewName</span> <span class="n">viewName</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="nc">ViewName</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+      <span class="nc">RequiredParams</span> <span class="n">requiredParams</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="nc">RequiredParams</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    
+      <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+      <span class="k">for</span><span class="o">(</span><span class="nc">String</span> <span class="nl">param:</span><span class="n">requiredParams</span><span class="o">.</span><span class="na">value</span><span class="o">()){</span>
+        <span class="nc">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="n">param</span><span class="o">);</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">param</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+      <span class="o">}</span>
+    
+      <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+      <span class="o">((</span><span class="nc">SimpleController</span><span class="o">)</span><span class="n">handler</span><span class="o">).</span><span class="na">control</span><span class="o">(</span><span class="n">params</span><span class="o">,</span> <span class="n">model</span><span class="o">);</span>
+    
+       <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="n">viewName</span><span class="o">.</span><span class="na">value</span><span class="o">(),</span> <span class="n">model</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="34-뷰">3.4 뷰</h1>
+
+<hr>
+
+<p>컨트롤러가 작업을 마친 후 뷰 정보를 ModelAndView 타입 오브젝트에 담아서 <code class="language-plaintext highlighter-rouge">DispatacherServlet</code>에 돌려주는 방법은 2가지가 존재한다.</p>
+
+<ol>
+  <li>View 타입의 오브젝트를 돌려주는 방법</li>
+  <li>View 이름을 돌려주는 방법
+    <ul>
+      <li>이 방법은 View 이름으로부터 실제 사용할 뷰를 결정 해주는 뷰 리졸버가 필요하다. 뷰 리졸버는 논리적인 뷰 이름을 실질적인 뷰 오브젝트로 전환하는 역할을 한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="341-뷰">3.4.1 뷰</h2>
+
+<hr>
+
+<p>뷰를 사용하는 방법은 두가지가 있음</p>
+
+<ol>
+  <li>스프링이 제공하는 기반 뷰 클래스를 확장해서 코드로 뷰를 만드는 방법</li>
+  <li>스프링이 제공하는 뷰를 활용하되 뷰 클래스 자체를 상속하거나 코드를 작성하지 않고, JSP 같은 템플릿 파일을 사용하거나 모델을 자동으로 뷰로 전환하는 로직을 적용.</li>
+</ol>
+
+<h3 id="internalresourceview와-jstlview">InternalResourceView와 JstlView</h3>
+
+<p>View Resolver 기본 전략</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InternalResourceView</span><span class="o">(</span><span class="s">"/WEB-INF/view/hello.jsp"</span><span class="o">);</span>
+<span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">model</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>JSP 서블릿을 통해 JSP 뷰를 적용할 때 사용한다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">JstlView</code>는 <code class="language-plaintext highlighter-rouge">InternalResourceView</code>의 서브 클래스이다.</li>
+  <li>뷰 오브젝트 대신 뷰 이름이 <code class="language-plaintext highlighter-rouge">ModelAndView</code>에 담겨서 돌아오면, <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 뷰 리졸버의 기본 전략인 <code class="language-plaintext highlighter-rouge">InteralResourceViewResolver</code>를 통해 <code class="language-plaintext highlighter-rouge">InternalResourceView</code>를 가져와 사용할 것이다.
+    <ul>
+      <li>뷰 리졸버는 보통 뷰 오브젝트를 캐싱하기 때문에 같은 URL의 뷰가 반복적으로 만들어지지 않아 성능 면에서도 유리하다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="redirectview">RedirectView</h3>
+
+<p>실제 뷰가 생성되는 것이 아니라, URL만 만들어져 다른 페이지로 리다이렉트 된다.</p>
+
+<h2 id="342-뷰-리졸버">3.4.2 뷰 리졸버</h2>
+
+<ul>
+  <li>뷰 리졸버는 뷰 이름으로부터 사용할 뷰 오브젝트를 찾아준다. (핸들러 매핑이 URL로 부터 컨트롤러를 찾아주는 것과 동일함)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ViewResolver</code> 인터페이스를 구현해서 만든다.</li>
+  <li>별도의 뷰 리졸버가 빈으로 등록되지 않는다면 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 기본 전략 뷰 리졸버인 <code class="language-plaintext highlighter-rouge">InternalResourceViewResolver</code>가 사용된다.</li>
+  <li>하나 이상의 뷰 리졸버를 등록할 때, order 프로퍼티를 이용해 뷰 리졸버의 적용 순서를 지정해주는 게 좋다.</li>
+</ul>
+
+<h3 id="internalresourceviewresolver">InternalResourceViewResolver</h3>
+
+<ul>
+  <li>별도의 설정없이 해당 뷰 리졸버를 그대로 사용하는 것은 불편한 점이 있다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">/WEB-INF/view/hello.jsp</code> 와 같이 전체 경로를 다 적어줘야 한다는 것이다.</li>
+      <li>
+        <p>prefix, suffix 프로퍼티를 이용해 앞 뒤에 붙는 내용을 생략할 수 있다.</p>
+
+        <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"..InternalResourceViewResolver"</span><span class="nt">&gt;</span>
+  	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"prefix"</span> <span class="na">value=</span><span class="s">"/WEB-INF/view"</span><span class="nt">/&gt;</span>
+  	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"suffix"</span> <span class="na">value=</span><span class="s">".jsp"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">RequestToViewNameTranslator</code></strong>
+    <ul>
+      <li>뷰와 관련된 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 전략</li>
+      <li>뷰 이름을 컨트롤러가 넘겨주지 않는 경우 URL을 이용해 자동으로 뷰 이름을 생성함</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">InternalResourceViewResolver</code>는 <strong>JSTL 라이브러리가 클래스패스에 존재하면</strong> JSTL의 부가기능을 지원하는 <code class="language-plaintext highlighter-rouge">JstlView</code>를 사용하고, 존재하지 않으면 <code class="language-plaintext highlighter-rouge">InternalResourceView</code>를 사용한다.</li>
+  <li>order 프로퍼티는 기본적으로 <code class="language-plaintext highlighter-rouge">Integer.MAX</code>(2^31-1) 값이 들어 있음</li>
+</ul>
+
+<h1 id="35-기타-전략">3.5 기타 전략</h1>
+
+<hr>
+
+<p><code class="language-plaintext highlighter-rouge">DispatcherServlet</code>의 남은 전략</p>
+
+<h2 id="351-핸들러-예외-리졸버">3.5.1 핸들러 예외 리졸버</h2>
+
+<hr>
+
+<p><code class="language-plaintext highlighter-rouge">HandlerExceptionResolver</code>는 컨트롤러의 작업 중에 발생한 예외를 어떻게 처리할지 결정하는 전략이다.</p>
+
+<ul>
+  <li>컨트롤러나 그 뒤의 계층에서 던저진 예외는 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>이 일단 전달 받는다.
+    <ol>
+      <li>핸들러 예외 리졸버가 등록되어 있는 경우
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 먼저 등록된 핸들러 예외 리졸버가 해당 예외를 처리할 수 있는지 확인한다.</li>
+          <li>처리가능 하면 해당 핸들러 예외 리졸버가 처리를 위임한다.</li>
+        </ul>
+      </li>
+      <li>핸들러 예외 리졸버가 등록되어 있지 않은 경우
+        <ul>
+          <li>서블릿 밖으로 던저서 서블릿 컨테이너가 처리하게 된다.</li>
+          <li>브라우저에 <em>HTTP Status 500</em> 내부 서버 오류 같은 메세지가 출력됨</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>핸들러 예외 리졸버는 <code class="language-plaintext highlighter-rouge">HandlerExceptionResolver</code> 인터페이스를 구현한다.</li>
+  <li>스프링은 총 4가지의 <code class="language-plaintext highlighter-rouge">HandlerExceptionResolver</code> 구현 전략을 제공한다. 그 중 3가지는 기본 전략으로 등록 되어있다.</li>
+</ul>
+
+<h3 id="annotationmethodhandlerexceptionresolver--exceptionhandlerexceptionresolver">
+<del>AnnotationMethodHandlerExceptionResolver</del> → <strong>ExceptionHandlerExceptionResolver</strong>
+</h3>
+
+<p>핸들러 예외 리졸버 기본 전략 중 하나</p>
+
+<ul>
+  <li>특정 컨트롤러의 작업 중에 발생하는 예외만 처리하기에 적합하다.</li>
+  <li>
+    <p>예외가 발생한 컨트롤러 내 메소드 중 @ExceptionHandler 애노테이션이 붙은 메소드를 찾아 예외처리를 맡아주는 핸들러 예외 리졸버 이다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Controller</span>
+  <span class="kd">class</span> <span class="nc">HelloController</span><span class="o">{</span>
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">url</span><span class="o">=</span><span class="s">""</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">hello</span><span class="o">(...)</span> <span class="o">{</span>
+      <span class="o">...</span>
+    <span class="o">}</span>
+    <span class="c1">// 이 컨트롤러에서 DataAccessException이 발생한 경우 호출</span>
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">DataAccessException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">dataAccessExceptionHandler</span><span class="o">(</span><span class="nc">DataAccessException</span> <span class="n">e</span><span class="o">){</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelAndView</span><span class="o">(</span><span class="s">"dataexception"</span><span class="o">).</span><span class="na">addObject</span><span class="o">(</span><span class="s">"msg"</span><span class="o">,</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="responsestatusexceptionresolver">ResponseStatusExceptionResolver</h3>
+
+<p>핸들러 예외 리졸버 기본 전략 중 하나</p>
+
+<ul>
+  <li>HTTP 500 에러 대신 의미 있는 HTTP 응답 상태코드로 전환해준다.</li>
+</ul>
+
+<aside>
+
+
+    ✨ HttpStatus 클래스 안에는 40여 개의 사용 가능한 HTTP 응답 상태 상수가 정의 되어있다.
+
+</aside>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">@ResponseStatus</code>를 붙여줄 수 있는 예외 클래스를 만들어 사용해야 한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">SERVICE_UNAVALABLE</span><span class="o">,</span><span class="n">reason</span><span class="o">=</span><span class="s">"서비스 일시 중지"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">NotInServiceeException</span> <span class="kd">extends</span> <span class="nc">RuntimeException</span><span class="o">{}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>기존의 예외 클래스에는 사용할 수 없음 → 사용하려면 <code class="language-plaintext highlighter-rouge">@ExceptionHandler</code> 사용</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ResponseStatusExceptionResolver</code>는 발생한 예외의 클래스에 <code class="language-plaintext highlighter-rouge">@ResponseStatus</code>가 있는지 확인하고, 만약 있다면 애노테이션에 지정해둔 HTTP 응답 상태 코드를 클라이언트 에 전달한다.</p>
+  </li>
+</ul>
+
+<h3 id="defaulthandlerexceptionresolver"><code class="language-plaintext highlighter-rouge">DefaultHandlerExceptionResolver</code></h3>
+
+<p>핸들러 예외 리졸버 기본 전략 중 하나</p>
+
+<ul>
+  <li>위 두가지 예외 리졸버에서 처리하지 못한 예외를 다루는 마지막 핸들러 예외 리졸버이다.</li>
+  <li>스프링에서 내부적으로 발생하는 주요 예외를 처리해주는 표준 예외처리 로직을 담고 있다.</li>
+  <li>핸들러 예외 리졸버를 따로 빈으로 등록하는 경우에 함께 등록해주는 것이 좋다. (따로 빈으로 등록하는 경우 기본 전략이 무시되기 때문에)</li>
+</ul>
+
+<h3 id="simplemappingexceptionresolver">SimpleMappingExceptionResolver</h3>
+
+<ul>
+  <li>예외를 처리할 뷰를 지정할 수 있다.</li>
+  <li>기본 전략이 아니므로 직접 빈으로 등록 해줘야 한다.</li>
+  <li>모든 컨트롤러에서 발생하는 예외가 일괄 적용된다.</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org...SimpleMappingExceptionResolver"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"mappedHandlers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;props&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"DataAccessException"</span><span class="nt">&gt;</span>error/data<span class="nt">&lt;/prop&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"BusinessLoginException"</span><span class="nt">&gt;</span>error/login<span class="nt">&lt;/prop&gt;</span>
+    <span class="nt">&lt;/props&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"defaultErrorView"</span><span class="nt">&gt;</span>error/default<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+<h3 id="참고-1">[참고]</h3>
+<p>예외가 발생했을 때 로그를 남기거나 관리자에게 통보하는 작업이 필요한 경우에는, 핸들러 인터셉터의 <code class="language-plaintext highlighter-rouge">afterCompletion(…)</code> 메소드가 담당하는 것이 좋다.</p>
+
+<h2 id="353-멀티파트-리졸버">3.5.3 멀티파트 리졸버</h2>
+
+<hr>
+
+<p>파일 업로드와 같이 <code class="language-plaintext highlighter-rouge">multipart</code> 포맷의 요청정보를 처리하는 전략을 설정할 수 있다.</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">CommonsMultipartResolver</code> 를 지원한다.</li>
+  <li>
+    <p>스프링의 경우에는 멀티파트 리졸버에 대한 기본 전략이 없다. 따라서 빈을 별도로 등록해야 파일 업로드 기능을 사용할 수 있다.</p>
+
+    <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"multipartResolver"</span>
+    <span class="na">class =</span><span class="s">"org....CommonsMultipartResolver"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxUploadSize"</span> <span class="na">value=</span><span class="s">"100000"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>스프링 부트는 멀티파트 리졸버를 자동 등록해준다.
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration</code></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="nc">DispatcherServlet</span><span class="o">.</span><span class="na">MULTIPART_RESOLVER_BEAN_NAME</span><span class="o">)</span>
+  <span class="nd">@ConditionalOnMissingBean</span><span class="o">(</span><span class="nc">MultipartResolver</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">StandardServletMultipartResolver</span> <span class="nf">multipartResolver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">StandardServletMultipartResolver</span> <span class="n">multipartResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StandardServletMultipartResolver</span><span class="o">();</span>
+    <span class="n">multipartResolver</span><span class="o">.</span><span class="na">setResolveLazily</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">multipartProperties</span><span class="o">.</span><span class="na">isResolveLazily</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">multipartResolver</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DispatcherServlet</code>은 클라이언트로 부터 멀티파트 요청을 받으면 멀티파트 리졸버에게 요청해서 <code class="language-plaintext highlighter-rouge">MultipartHttpServletRequest</code> 오브젝트로 (자동) 전환된다.</li>
+</ul>
+
+<h3 id="requesttoviewnametranslator">RequestToViewNameTranslator</h3>
+
+<p>컨트롤러에서 뷰 이름이나 뷰 오브젝트를 돌려주지 않았을 경우 HTTP 요청정보를 참고해서 뷰 이름을 생성해주는 로직을 담고 있다.</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">DefaultRequestViewNameTranslator</code>가 기본전략으로 등록되어 있다.
+    <ul>
+      <li>URL을 기준으로 해서 뷰 이름을 결정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="dispatcherservletproperties-기본-전략">DispatcherServlet.properties (기본 전략)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default implementation classes for 
+DispatcherServlet's strategy interfaces.
+
+**org.springframework.web.servlet.LocaleResolver**
+= o.s.web.servlet.i18n.AcceptHeaderLocaleResolver
+
+**org.springframework.web.servlet.ThemeResolver**
+= o.s.web.servlet.theme.FixedThemeResolver
+
+**org.springframework.web.servlet.HandlerMapping**
+= o.s.web.servlet.handler.BeanNameUrlHandlerMapping,
+  o.s.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping,\
+  o.s.web.servlet.function.support.RouterFunctionMapping
+
+**org.springframework.web.servlet.HandlerAdapter**
+= o.s.web.servlet.mvc.HttpRequestHandlerAdapter,\
+  o.s.web.servlet.mvc.SimpleControllerHandlerAdapter,\
+  o.s.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter,\
+  o.s.web.servlet.function.support.HandlerFunctionAdapter
+
+**org.springframework.web.servlet.HandlerExceptionResolver**
+= o.s.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\
+  o.s.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\
+  o.s.web.servlet.mvc.support.DefaultHandlerExceptionResolver
+
+**org.springframework.web.servlet.RequestToViewNameTranslator**
+= o.s.web.servlet.view.DefaultRequestToViewNameTranslator
+
+**org.springframework.web.servlet.ViewResolver**
+= o.s.web.servlet.view.InternalResourceViewResolver
+
+**org.springframework.web.servlet.FlashMapManager**
+= o.s.web.servlet.support.SessionFlashMapManager
+</code></pre></div></div>
+
+<h1 id="36-스프링-31의-mvc">3.6 스프링 3.1의 MVC</h1>
+
+<hr>
+
+<h2 id="361-플래시-맵-매니저-전략">3.6.1 플래시 맵 매니저 전략</h2>
+
+<hr>
+
+<h3 id="플래시-맵-flashmapmananger">플래시 맵 (FlashMapMananger)</h3>
+
+<ul>
+  <li>플래시 애트리뷰트를 저장하는 맵.</li>
+  <li>플래시 애트리뷰트는 하나의 요청에서 생성되어 다음 요청으로 전달되는 정보이다.</li>
+  <li>일반 HTTP 세션에 저장되는 정보처럼 오래 유지되지는 않고, 다음 요청에서 한번 사용되고 바로 제거되는 특징이 있다.</li>
+  <li>주로 POST 단계의 작업 결과 메세지를 <strong>리다이렉트</strong> 된 페이지로 전달할 때 주로 사용한다.</li>
+  <li>Post / Redirect / Get 패턴
+    <ul>
+      <li>POST 작업을 마친 후에는 <code class="language-plaintext highlighter-rouge">RedirectView</code>를 이용해 아예 다른 URL을 가진 GET 방식의 새로운 페이지로 이동시키는 것이 권장된다.</li>
+    </ul>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/spring/2023/06/10/post1.html" title="토비의 스프링 - 2-1장 IoC 컨테이너와 DI">토비의 스프링 - 2-1장 IoC 컨테이너와...</a><a class="next" href="/jekyll-theme-yat/spring/2023/06/12/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC">토비의 스프링 - 2-4장 스프링 @MVC...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/05/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC">토비의 스프링 - 6장 AOP</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/05/27/post2.html" title="토비의 스프링 - 2-4장 스프링 @MVC">Proxy와 Spring</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/11/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC">토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/14/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC">토비의 스프링 - 2-4장 스프링 @MVC 2 </a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<!----><script src="https://utteranc.es/client.js" repo="aken5887/aken5887.github.io" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async>
+      </script>
+    </div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    var topHeadId = 1;
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      var headTagName = h.tagName.toLowerCase();
+      var headId = h.getAttribute('id');
+
+      if(headTagName == 'h1'){
+        topHeadId++;
+      }
+      menuHTML += (
+        '<li class="h-' + headTagName + ' h1-' + topHeadId + '">'
+        + '<a href="#h-' + headId + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      var topHeadId = '';
+
+      if(index > -1){
+        topHeadId = items[index].classList.item(1);
+      }
+
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h1')
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h1')
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (
+            (!item.classList.contains('h-h1') && !item.classList.contains('h-h2'))
+             || (item.classList.contains('h-h2') && !item.classList.contains(topHeadId))
+            ) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        item.style.display = '';
+      }
+
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
+          item.style.display = 'none';
+        }
+      }
+
+      for(var i = 0; i < items.length; i++){
+        item = items[i];
+        if(item.classList.contains(topHeadId) && item.classList.contains('h-h2')){
+          item.style.display = '';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2023-2023 aken5887</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>전자정부 프레임워크 분석 | AK’s Dev Wiki</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="전자정부 프레임워크 분석">
+<meta name="author" content="aken5887">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="목적 그 동안 프로젝트 하면서 사용한 전자정부프레임워크 XML기반 스프링 설정을 정리 해보았다.">
+<meta property="og:description" content="목적 그 동안 프로젝트 하면서 사용한 전자정부프레임워크 XML기반 스프링 설정을 정리 해보았다.">
+<link rel="canonical" href="https://aken5887.github.io/jekyll-theme-yat/spring/2023/07/05/post1.html">
+<meta property="og:url" content="https://aken5887.github.io/jekyll-theme-yat/spring/2023/07/05/post1.html">
+<meta property="og:site_name" content="AK’s Dev Wiki">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-07-05T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="전자정부 프레임워크 분석">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"aken5887"},"dateModified":"2023-07-05T00:00:00+00:00","datePublished":"2023-07-05T00:00:00+00:00","description":"목적 그 동안 프로젝트 하면서 사용한 전자정부프레임워크 XML기반 스프링 설정을 정리 해보았다.","headline":"전자정부 프레임워크 분석","mainEntityOfPage":{"@type":"WebPage","@id":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/07/05/post1.html"},"url":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/07/05/post1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/assets/images/favicon/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-6312418501184620",
+      enable_page_level_ads: true
+    });
+  </script><link type="application/atom+xml" rel="alternate" href="https://aken5887.github.io/jekyll-theme-yat/feed.xml" title="AK's Dev Wiki">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="AK's Dev Wiki" src="/assets/images/favicon/favicon.ico" onerror="this.style.display='none'">
+  AK's Dev Wiki
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/archives.html">아카이브</a><a class="page-link" href="/jekyll-theme-yat/categories.html">카테고리</a><a class="page-link" href="/jekyll-theme-yat/tags.html">태그별</a>
+
+
+
+
+
+
+
+
+
+<!--              <span class="page-link">-->
+<!--
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->
+<!--              </span>-->
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('false' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">전자정부 프레임워크 분석</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-07-05T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Jul 05, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 29 mins</span>
+  </p>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#%EC%A0%84%EC%9E%90%EC%A0%95%EB%B6%80%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC">#전자정부프레임워크</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="목적">목적</h1>
+<p>그 동안 프로젝트 하면서 사용한 전자정부프레임워크 XML기반 스프링 설정을 정리 해보았다.</p>
+
+<p>web.xml 설정 부터 시작해서 Root WebApplicationContext 관련 XML 설정 Servlet WebApplicationContext 관련 XML 설정 까지 정리하였다.</p>
+
+<h1 id="전자정부프레임워크-구성">전자정부프레임워크 구성</h1>
+<ul>
+  <li>전자정부프레임워크 버전 : 3.5.1</li>
+  <li>스프링 버전 : 4.0.9</li>
+  <li>JDK 버전 : 1.8</li>
+</ul>
+
+<h1 id="web-application-설정">web application 설정</h1>
+
+<hr>
+<p>deployment descriptor</p>
+
+<h2 id="webxml">web.xml</h2>
+
+<hr>
+
+<h3 id="characterencodingfilter">CharacterEncodingFilter</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;filter&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>encodingFilter<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;filter-class&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="nt">&lt;/filter-class&gt;</span>
+  <span class="nt">&lt;init-param&gt;</span>
+      <span class="nt">&lt;param-name&gt;</span>encoding<span class="nt">&lt;/param-name&gt;</span>
+      <span class="nt">&lt;param-value&gt;</span>utf-8<span class="nt">&lt;/param-value&gt;</span>
+  <span class="nt">&lt;/init-param&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+
+<span class="nt">&lt;filter-mapping&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>encodingFilter<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/filter-mapping&gt;</span>
+</code></pre></div></div>
+
+<h3 id="htmltagfilter">HTMLTagFilter</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;filter&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>HTMLTagFilter<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;filter-class&gt;</span>egovframework.com.cmm.filter.HTMLTagFilter<span class="nt">&lt;/filter-class&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+
+<span class="nt">&lt;filter-mapping&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>HTMLTagFilter<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/filter-mapping&gt;</span>
+</code></pre></div></div>
+
+<h3 id="delegatingfilterproxy">DelegatingFilterProxy</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;filter&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>springSecurityFilterChain<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;filter-class&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="nt">&lt;/filter-class&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+
+<span class="nt">&lt;filter-mapping&gt;</span>
+  <span class="nt">&lt;filter-name&gt;</span>springSecurityFilterChain<span class="nt">&lt;/filter-name&gt;</span>
+  <span class="nt">&lt;url-pattern&gt;</span>/*<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/filter-mapping&gt;</span>
+</code></pre></div></div>
+
+<h3 id="root-webapplicationcontext에-대한-설정">Root WebApplicationContext에 대한 설정</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context-param&gt;</span>
+  <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+  <span class="nt">&lt;param-value&gt;</span>**classpath*:egovframework/spring/com/context-*.xml**<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+</code></pre></div></div>
+
+<h3 id="contextloaderlistener">ContextLoaderListener</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;listener&gt;</span>
+    <span class="nt">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="nt">&lt;/listener-class&gt;</span>
+<span class="nt">&lt;/listener&gt;</span>
+</code></pre></div></div>
+
+<h3 id="httpsessioncheckinglistener">HttpSessionCheckingListener</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;listener&gt;</span>
+  <span class="nt">&lt;listener-class&gt;</span>egovframework.com.cmm.HttpSessionCheckingListener<span class="nt">&lt;/listener-class&gt;</span>
+<span class="nt">&lt;/listener&gt;</span>
+</code></pre></div></div>
+
+<h3 id="dispatcherservlet-servlet-webapplicationcontext">DispatcherServlet (Servlet WebApplicationContext)</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;servlet&gt;</span>
+  <span class="nt">&lt;servlet-name&gt;</span>action<span class="nt">&lt;/servlet-name&gt;</span>
+  <span class="nt">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>
+  <span class="nt">&lt;init-param&gt;</span>
+      <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+      <span class="nt">&lt;param-value&gt;</span>**/WEB-INF/config/egovframework/springmvc/egov-com-*.xml**<span class="nt">&lt;/param-value&gt;</span>
+  <span class="nt">&lt;/init-param&gt;</span>
+  <span class="nt">&lt;load-on-startup&gt;</span>1<span class="nt">&lt;/load-on-startup&gt;</span>
+<span class="nt">&lt;/servlet&gt;</span>
+<span class="nt">&lt;servlet-mapping&gt;</span>
+  <span class="nt">&lt;servlet-name&gt;</span>action<span class="nt">&lt;/servlet-name&gt;</span>
+  <span class="nt">&lt;url-pattern&gt;</span>*.do<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/servlet-mapping&gt;</span>
+</code></pre></div></div>
+
+<h3 id="datasource-리소스-정의">DataSource 리소스 정의</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;resource-ref&gt;</span>
+  <span class="nt">&lt;description&gt;</span>Connection<span class="nt">&lt;/description&gt;</span>
+  <span class="nt">&lt;res-ref-name&gt;</span>jdbc/eams<span class="nt">&lt;/res-ref-name&gt;</span>
+  <span class="nt">&lt;res-type&gt;</span>javax.sql.DataSource<span class="nt">&lt;/res-type&gt;</span>
+  <span class="nt">&lt;res-auth&gt;</span>Container<span class="nt">&lt;/res-auth&gt;</span>
+<span class="nt">&lt;/resource-ref&gt;</span>
+</code></pre></div></div>
+
+<h3 id="시작-페이지">시작 페이지</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;welcome-file-list&gt;</span>
+  <span class="nt">&lt;welcome-file&gt;</span>index.html<span class="nt">&lt;/welcome-file&gt;</span>
+<span class="nt">&lt;/welcome-file-list&gt;</span>
+</code></pre></div></div>
+
+<h3 id="세션-타임아웃-설정">세션 타임아웃 설정</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;session-config&gt;</span>
+  <span class="nt">&lt;session-timeout&gt;</span>60<span class="nt">&lt;/session-timeout&gt;</span>
+<span class="nt">&lt;/session-config&gt;</span>
+</code></pre></div></div>
+
+<h3 id="에러-페이지">에러 페이지</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;error-page&gt;</span>
+  <span class="nt">&lt;error-code&gt;</span>404<span class="nt">&lt;/error-code&gt;</span>
+  <span class="nt">&lt;location&gt;</span>/code404.jsp<span class="nt">&lt;/location&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+<span class="nt">&lt;error-page&gt;</span>
+  <span class="nt">&lt;error-code&gt;</span>500<span class="nt">&lt;/error-code&gt;</span>
+  <span class="nt">&lt;location&gt;</span>/code500.jsp<span class="nt">&lt;/location&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+</code></pre></div></div>
+
+<h1 id="root-applicationcontext">Root ApplicationContext</h1>
+
+<hr>
+
+<p><code class="language-plaintext highlighter-rouge">egoframework/spring/com/context-*.xml</code> 파일 들</p>
+
+<h2 id="context-commonxml">context-common.xml</h2>
+
+<hr>
+
+<h3 id="component-scan-설정">component-scan 설정</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"egovframework"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;context:include-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Service"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;context:include-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Repository"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;context:exclude-filter</span> <span class="na">type=</span><span class="s">"annotation"</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Controller"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/context:component-scan&gt;</span> 
+</code></pre></div></div>
+
+<h3 id="reloadableresourcebundlemessagesource">ReloadableResourceBundleMessageSource</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"messageSource"</span> <span class="na">class=</span><span class="s">"org.springframework.context.support.ReloadableResourceBundleMessageSource"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"basenames"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/message/com/message-common<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/rte/fdl/idgnr/messages/idgnr<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/rte/fdl/property/messages/properties<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/egovProps/globals<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"cacheSeconds"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;value&gt;</span>60<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="egovmessagesource">EgovMessageSource</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egovMessageSource"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.EgovMessageSource"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"reloadableResourceBundleMessageSource"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"messageSource"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="leaveatrace">LeaveaTrace</h3>
+
+<p><em>실행환경에서 빈 이름을 참조할 수 있는 빈</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"leaveaTrace"</span> <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.trace.LeaveaTrace"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"traceHandlerServices"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egov.traceHandlerService"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaulttracehandlemanager">DefaultTraceHandleManager</h3>
+
+<p><code class="language-plaintext highlighter-rouge">*LeaveaTrace</code> 빈 에서 참조*</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.traceHandlerService"</span> 
+  <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"reqExpMatcher"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egov.antPathMater"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"patterns"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>*<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"handlers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egov.defaultTraceHandler"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="antpathmatcher">AntPathMatcher</h3>
+
+<p><code class="language-plaintext highlighter-rouge">*DefaultTraceHandleManager</code>빈 에서 참조*</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.antPathMater"</span> <span class="na">class=</span><span class="s">"org.springframework.util.AntPathMatcher"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaulttracehandler">DefaultTraceHandler</h3>
+
+<p><code class="language-plaintext highlighter-rouge">*DefaultTraceHandleManager</code> 빈 에서 참조*</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.defaultTraceHandler"</span> <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="commonsmultipartresolver">CommonsMultipartResolver</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"spring.RegularCommonsMultipartResolver"</span> <span class="na">class=</span><span class="s">"org.springframework.web.multipart.commons.CommonsMultipartResolver"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxUploadSize"</span> <span class="na">value=</span><span class="s">"500000000"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxInMemorySize"</span> <span class="na">value=</span><span class="s">"500000000"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="egovmultipartresolver">EgovMultipartResolver</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"local.MultiCommonsMultipartResolver"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.web.EgovMultipartResolver"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxUploadSize"</span> <span class="na">value=</span><span class="s">"500000000"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxInMemorySize"</span> <span class="na">value=</span><span class="s">"500000000"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="multipartresolver">MultipartResolver</h3>
+
+<p><code class="language-plaintext highlighter-rouge">*CommonsMultipartResolver</code> 빈을 사용함*</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"spring.RegularCommonsMultipartResolver"</span> <span class="na">alias=</span><span class="s">"multipartResolver"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h2 id="context-aspectxml">context-aspect.xml</h2>
+
+<hr>
+
+<h3 id="aop-설정">AOP 설정</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">pointcut</code> : <code class="language-plaintext highlighter-rouge">execution(* egovframework..impl.*Impl.*(..))</code>
+</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;aop:config&gt;</span>
+  <span class="nt">&lt;aop:pointcut</span> <span class="na">id=</span><span class="s">"egov.serviceMethod"</span> <span class="na">expression=</span><span class="s">"execution(* egovframework..impl.*Impl.*(..))"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;aop:aspect</span> <span class="na">ref=</span><span class="s">"egov.exceptionTransfer"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;aop:after-throwing</span> <span class="na">throwing=</span><span class="s">"exception"</span> <span class="na">pointcut-ref=</span><span class="s">"egov.serviceMethod"</span> <span class="na">method=</span><span class="s">"transfer"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/aop:aspect&gt;</span>
+<span class="nt">&lt;/aop:config&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>method :  예외가 발생한 메소드에서 예외를 던지고 종료될 때 호출 할 메소드*</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">transfer</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">...</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="exceptiontransfer">ExceptionTransfer</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.exceptionTransfer"</span> <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.aspect.ExceptionTransfer"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exceptionHandlerService"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"defaultExceptionHandleManager"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"otherExceptionHandleManager"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaultexceptionhandlemanager">DefaultExceptionHandleManager</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"defaultExceptionHandleManager"</span> 
+  <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"reqExpMatcher"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egov.antPathMater"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"patterns"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>**service.impl.*<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"handlers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egovHandler"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="egovcomexcephndlr">EgovComExcepHndlr</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egovHandler"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.EgovComExcepHndlr"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaultexceptionhandlemanager-1">DefaultExceptionHandleManager</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"otherExceptionHandleManager"</span> 
+  <span class="na">class=</span><span class="s">"egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"reqExpMatcher"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egov.antPathMater"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"patterns"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>**service.impl.*<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"handlers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"otherHandler"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="egovcomothersexcephndlr">EgovComOthersExcepHndlr</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"otherHandler"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.EgovComOthersExcepHndlr"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h2 id="context-datasourcexml">context-datasource.xml</h2>
+
+<hr>
+
+<h3 id="propertyplaceholderconfigurer">PropertyPlaceholderConfigurer</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.propertyConfigurer"</span> <span class="na">class=</span><span class="s">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"locations"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;list&gt;</span>
+          <span class="nt">&lt;value&gt;</span>classpath:/egovframework/egovProps/globals.properties<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="alias">Alias</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-oracle"</span> <span class="na">alias=</span><span class="s">"egov.dataSource"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-oracle"</span> <span class="na">alias=</span><span class="s">"dataSource"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-common"</span> <span class="na">alias=</span><span class="s">"egov.dataSourceCommon"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-common"</span> <span class="na">alias=</span><span class="s">"dataSourceCommon"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-sms"</span> <span class="na">alias=</span><span class="s">"egov.dataSourceSms"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">"dataSource-sms"</span> <span class="na">alias=</span><span class="s">"dataSourceSms"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="jndiobjectfactorybean">JndiObjectFactoryBean</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"dataSource-oracle"</span> <span class="na">class=</span><span class="s">"org.springframework.jndi.JndiObjectFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jndiName"</span> <span class="na">value=</span><span class="s">"jdbc/eams"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"resourceRef"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"dataSource-common"</span> <span class="na">class=</span><span class="s">"org.springframework.jndi.JndiObjectFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jndiName"</span> <span class="na">value=</span><span class="s">"jdbc/common"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"resourceRef"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"dataSource-sms"</span> <span class="na">class=</span><span class="s">"org.springframework.jndi.JndiObjectFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jndiName"</span> <span class="na">value=</span><span class="s">"jdbc/sms"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"resourceRef"</span> <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h2 id="context-egovuserdetailshelperxml">context-egovuserdetailshelper.xml</h2>
+
+<hr>
+
+<h3 id="egovuserdetailshelper">EgovUserDetailsHelper</h3>
+
+<p><em>인증된 유저의 <code class="language-plaintext highlighter-rouge">LoginVO</code>, 권한, 인증 여부를 확인 할 수 있는 서비스 클래스</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egovUserDetailsHelper"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.util.EgovUserDetailsHelper"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"egovUserDetailsService"</span><span class="nt">&gt;</span> 
+    <span class="c">&lt;!-- 원하는 bean id를 아래에 ref 태그에 적용한다 --&gt;</span>
+    <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"egovUserDetailsSessionService"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="egovuserdetailssessionserviceimpl">EgovUserDetailsSessionServiceImpl</h3>
+
+<p><em>세션을 이용한 인증을 사용하는 빈 (chosen)</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egovUserDetailsSessionService"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.service.impl.EgovUserDetailsSessionServiceImpl"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">EgovUserDetailsSessionServiceImpl</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EgovUserDetailsSessionServiceImpl</span> 
+    <span class="kd">extends</span> <span class="nc">EgovAbstractServiceImpl</span> <span class="kd">implements</span> <span class="nc">EgovUserDetailsService</span> <span class="o">{</span>
+  
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">getAuthenticatedUser</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">RequestContextHolder</span><span class="o">.</span><span class="na">getRequestAttributes</span><span class="o">().</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">"loginVO"</span><span class="o">,</span> <span class="nc">RequestAttributes</span><span class="o">.</span><span class="na">SCOPE_SESSION</span><span class="o">);</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getAuthorities</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">// 권한 설정을 리턴한다.</span>
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">listAuth</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;();</span>
+      <span class="k">return</span> <span class="n">listAuth</span><span class="o">;</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isAuthenticated</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">// 인증된 유저인지 확인한다.</span>
+      <span class="k">if</span> <span class="o">(</span><span class="nc">RequestContextHolder</span><span class="o">.</span><span class="na">getRequestAttributes</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="nc">RequestContextHolder</span><span class="o">.</span><span class="na">getRequestAttributes</span><span class="o">().</span><span class="na">getAttribute</span><span class="o">(</span>
+      <span class="s">"loginVO"</span><span class="o">,</span> <span class="nc">RequestAttributes</span><span class="o">.</span><span class="na">SCOPE_SESSION</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+   <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="egovuserdetailssecurityserviceimpl">EgovUserDetailsSecurityServiceImpl</h3>
+
+<p><em>스프링 시큐리티를 이용한 인증을 사용할 빈 (Unchosen)</em></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">bean</span> <span class="n">id</span><span class="o">=</span><span class="s">"egovUserDetailsSecurityService"</span> <span class="kd">class</span><span class="err">="</span><span class="nc">egovframework</span><span class="o">.</span><span class="na">com</span><span class="o">.</span><span class="na">sec</span><span class="o">.</span><span class="na">ram</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">impl</span><span class="o">.</span><span class="na">EgovUserDetailsSecurityServiceImpl</span><span class="err">"</span><span class="o">/&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">EgovUserDetailsSecurityServiceImpl</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EgovUserDetailsSecurityServiceImpl</span> 
+          <span class="kd">extends</span> <span class="nc">EgovAbstractServiceImpl</span> <span class="kd">implements</span> <span class="nc">EgovUserDetailsService</span> <span class="o">{</span>
+    <span class="cm">/**
+     * 인증된 사용자객체를 VO형식으로 가져온다.
+     * @return Object - 사용자 ValueObject
+     */</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">getAuthenticatedUser</span><span class="o">()</span> <span class="o">{</span>
+        
+      <span class="c1">// 이 메소드의 경우 인증이 되지 않더라고 null을 리턴하지 않기 때문에 </span>
+      <span class="c1">// 명시적으로 인증되지 않은 경우 null을 리턴하도록 수정함</span>
+      <span class="k">if</span> <span class="o">(</span><span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">isAuthenticated</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">getAuthenticatedUser</span><span class="o">();</span>	
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="cm">/**
+     * 인증된 사용자의 권한 정보를 가져온다.
+     * 예) [ROLE_ADMIN, ROLE_USER, ROLE_A, ROLE_B, ROLE_RESTRICTED, IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED_ANONYMOUSLY]
+     * @return List - 사용자 권한정보 목록
+     */</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getAuthorities</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">getAuthorities</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="cm">/**
+     * 인증된 사용자 여부를 체크한다.
+     * @return Boolean - 인증된 사용자 여부(TRUE / FALSE)	
+     */</span>
+    <span class="kd">public</span> <span class="nc">Boolean</span> <span class="nf">isAuthenticated</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">isAuthenticated</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="context-propertiesxml">context-properties.xml</h2>
+
+<hr>
+
+<h3 id="egovpropertyserviceimpl">EgovPropertyServiceImpl</h3>
+<p><em>공통 프로퍼티 관리를 위한 서비스 빈</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">name=</span><span class="s">"propertiesService"</span> <span class="na">class=</span><span class="s">"egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl"</span> <span class="na">destroy-method=</span><span class="s">"destroy"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"properties"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;map&gt;</span>
+      <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"pageUnit"</span> <span class="na">value=</span><span class="s">"100"</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"pageSize"</span> <span class="na">value=</span><span class="s">"10"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">EgovPropertyServiceImpl</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EgovPropertyServiceImpl</span> <span class="kd">implements</span> <span class="nc">EgovPropertyService</span><span class="o">,</span> <span class="nc">ApplicationContextAware</span><span class="o">,</span>
+                <span class="nc">InitializingBean</span><span class="o">,</span> <span class="nc">DisposableBean</span><span class="o">,</span> <span class="nc">ResourceLoaderAware</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="no">LOGGER</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">EgovPropertyServiceImpl</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    
+    <span class="kd">private</span> <span class="nc">ExtendedProperties</span> <span class="n">egovProperties</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">ResourceLoader</span> <span class="n">resourceLoader</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    
+    <span class="kd">private</span> <span class="nc">MessageSource</span> <span class="n">messageSource</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Set</span><span class="o">&lt;?&gt;</span> <span class="n">extFileName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Map</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">properties</span><span class="o">;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="context-scheduling-sym-log-ulgxml">context-scheduling-sym-log-ulg.xml</h2>
+
+<hr>
+
+<p>스케쥴링 관련 빈 설정</p>
+
+<h3 id="methodinvokingjobdetailfactorybean">MethodInvokingJobDetailFactoryBean</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"userLogging"</span> <span class="na">class=</span><span class="s">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"targetObject"</span> <span class="na">ref=</span><span class="s">"egovUserLogScheduling"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"targetMethod"</span> <span class="na">value=</span><span class="s">"userLogInsert"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"concurrent"</span> <span class="na">value=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="simpletriggerbean">SimpleTriggerBean</h3>
+
+<p><code class="language-plaintext highlighter-rouge">startDelay</code>와 <code class="language-plaintext highlighter-rouge">repeatInterval</code> 프로퍼티를 가지는 <code class="language-plaintext highlighter-rouge">Trigger</code></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"userLogTrigger"</span> <span class="na">class=</span><span class="s">"org.springframework.scheduling.quartz.SimpleTriggerBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jobDetail"</span> <span class="na">ref=</span><span class="s">"userLogging"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"startDelay"</span> <span class="na">value=</span><span class="s">"60000"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"repeatInterval"</span> <span class="na">value=</span><span class="s">"3600000"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="crontriggerbean">CronTriggerBean</h3>
+
+<p><code class="language-plaintext highlighter-rouge">cronExpression</code> 크론 표현식을 사용하는 <code class="language-plaintext highlighter-rouge">Trigger</code></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"userLogTrigger"</span> <span class="na">class=</span><span class="s">"org.springframework.scheduling.quartz.CronTriggerBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jobDetail"</span> <span class="na">ref=</span><span class="s">"planProcure"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"cronExpression"</span> <span class="na">value=</span><span class="s">"0 0 3 * * ?"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="schedulerfactorybean"><code class="language-plaintext highlighter-rouge">SchedulerFactoryBean</code></h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"userLogScheduler"</span> <span class="na">class=</span><span class="s">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"triggers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">bean=</span><span class="s">"userLogTrigger"</span> <span class="nt">/&gt;</span>				
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">SchedulerAccessor</code></p>
+
+    <blockquote>
+      <p>Quartz Scheduler에 액세스하기 위한 공통 기본 클래스, 즉 인스턴스에 작업, 트리거 및 리스너를 등록하기 위한 클래스입니다*</p>
+
+    </blockquote>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">SchedulerAccessor</span> <span class="kd">implements</span> <span class="nc">ResourceLoaderAware</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">JobDetail</span><span class="o">&gt;</span> <span class="n">jobDetails</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Trigger</span><span class="o">&gt;</span> <span class="n">triggers</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTriggers</span><span class="o">(</span><span class="nc">Trigger</span><span class="o">...</span> <span class="n">triggers</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">triggers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">triggers</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">SchedulerFactoryBean</code></p>
+
+    <blockquote>
+      <p><code class="language-plaintext highlighter-rouge">FactoryBean Quartz Scheduler</code>를 생성 및 구성하고, Spring 애플리케이션 컨텍스트의 일부로 라이프 사이클을 관리하고, 종속성 주입을위한 빈 참조로 Scheduler를 노출합니다.
+  <code class="language-plaintext highlighter-rouge">JobDetails</code>, <code class="language-plaintext highlighter-rouge">Calendars</code> 및 <code class="language-plaintext highlighter-rouge">Triggers</code>를 등록할 수 있으며, 초기화 시 스케줄러를 자동으로 시작하고 소멸 시 종료할 수 있습니다. 시작 시 작업의 정적 등록만 필요한 시나리오에서는 응용 프로그램 코드에서 Scheduler 인스턴스 자체에 액세스할 필요가 없습니다.
+  런타임에 작업을 동적으로 등록하려면 이 <code class="language-plaintext highlighter-rouge">SchedulerFactoryBean</code>에 대한 Bean 참조를 사용하여 Quartz Scheduler(org.quartz.Scheduler)에 직접 액세스할 수 있습니다. 이를 통해 새 작업 및 트리거를 만들고 전체 스케줄러를 제어하고 모니터링할 수 있습니다.*</p>
+
+    </blockquote>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SchedulerFactoryBean</span> <span class="kd">extends</span> <span class="nc">SchedulerAccessor</span> <span class="kd">implements</span> <span class="nc">FactoryBean</span><span class="o">&lt;</span><span class="nc">Scheduler</span><span class="o">&gt;,</span> <span class="nc">BeanNameAware</span><span class="o">,</span>
+      <span class="nc">ApplicationContextAware</span><span class="o">,</span> <span class="nc">InitializingBean</span><span class="o">,</span> <span class="nc">DisposableBean</span><span class="o">,</span> <span class="nc">SmartLifecycle</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">SchedulingException</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">scheduler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+          <span class="n">startScheduler</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">scheduler</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">startupDelay</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">SchedulerException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">SchedulingException</span><span class="o">(</span><span class="s">"Could not start Quartz Scheduler"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">SchedulingException</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">scheduler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">scheduler</span><span class="o">.</span><span class="na">standby</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">SchedulerException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">SchedulingException</span><span class="o">(</span><span class="s">"Could not stop Quartz Scheduler"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">(</span><span class="nc">Runnable</span> <span class="n">callback</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">SchedulingException</span> <span class="o">{</span>
+      <span class="n">stop</span><span class="o">();</span>
+      <span class="n">callback</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="context-securityxml">context-security.xml</h2>
+
+<hr>
+
+<h3 id="-설정">
+<security:http security="none"></security:http> 설정</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"/css/**"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"/html/**"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"/images/**"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"/js/**"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"/resource/**"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;security:http</span> <span class="na">pattern=</span><span class="s">"\A/WEB-INF/jsp/.*\Z"</span> <span class="na">request-matcher=</span><span class="s">"regex"</span> <span class="na">security=</span><span class="s">"none"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="전자정부-프레임워크-security-태그">전자정부 프레임워크 security 태그</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;egov-security:config</span> <span class="na">id=</span><span class="s">"securityConfig"</span>
+    <span class="na">loginUrl=</span><span class="s">"/uat/uia/egovLoginUsr.do"</span>
+    <span class="na">logoutSuccessUrl=</span><span class="s">"/EgovContent.do"</span>
+    <span class="na">loginFailureUrl=</span><span class="s">"/uat/uia/egovLoginUsrFail.do?login_error=1"</span>
+    <span class="na">accessDeniedUrl=</span><span class="s">"/sec/ram/accessDenied.do"</span>
+
+    <span class="na">dataSource=</span><span class="s">"egov.dataSource"</span>
+    <span class="na">jdbcUsersByUsernameQuery=</span><span class="s">"SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, USER_ZIP,
+                                                              USER_ADRES, USER_EMAIL, USER_SE, ORGNZT_ID, ESNTL_ID,
+                                                              (select a.ORGNZT_NM from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) ORGNZT_NM
+                                                       FROM COMVNUSERMASTER m WHERE CONCAT(USER_SE, USER_ID) = ?"</span>
+    <span class="na">jdbcAuthoritiesByUsernameQuery=</span><span class="s">"SELECT A.SCRTY_DTRMN_TRGET_ID USER_ID, A.AUTHOR_CODE AUTHORITY
+                                                             FROM COMTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B
+                                                             WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID AND B.USER_ID = ?"</span>
+    <span class="na">jdbcMapClass=</span><span class="s">"egovframework.com.sec.security.common.EgovSessionMapping"</span>
+
+    <span class="na">requestMatcherType=</span><span class="s">"regex"</span>
+    <span class="na">hash=</span><span class="s">"plaintext"</span>
+    <span class="na">hashBase64=</span><span class="s">"false"</span>
+
+    <span class="na">concurrentMaxSessons=</span><span class="s">"1"</span>
+    <span class="na">concurrentExpiredUrl=</span><span class="s">"/EgovContent.do"</span>
+
+    <span class="na">defaultTargetUrl=</span><span class="s">"/EgovContent.do"</span>
+<span class="nt">/&gt;</span>
+
+<span class="nt">&lt;egov-security:initializer</span> <span class="na">id=</span><span class="s">"initializer"</span>
+    <span class="na">supportMethod=</span><span class="s">"true"</span>
+    <span class="na">supportPointcut=</span><span class="s">"false"</span>
+  <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h2 id="context-sqlmapxml">context-sqlMap.xml</h2>
+
+<hr>
+
+<h3 id="propertyplaceholderconfigurer-1">PropertyPlaceholderConfigurer</h3>
+
+<p><em>외부 설정 프로퍼티</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.propertyConfigurer"</span> <span class="na">class=</span><span class="s">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"locations"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;list&gt;</span>
+          <span class="nt">&lt;value&gt;</span>classpath:/egovframework/egovProps/globals.properties<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaultlobhandler">DefaultLobHandler</h3>
+
+<p><em>이 <code class="language-plaintext highlighter-rouge">LobHandler</code> 는 간단한 BLOB 및 CLOB 처리에 관한 사양의 제안 사항 측면에서 JDBC를 준수하는 모든 JDBC 드라이버에서 작동한다.</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.lobHandler"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.support.lob.DefaultLobHandler"</span> <span class="na">lazy-init=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="ibatissqlmapclientfactorybean">ibatis.SqlMapClientFactoryBean</h3>
+
+<p><code class="language-plaintext highlighter-rouge">*ibatis</code>를 사용하기 위한 설정*</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.sqlMapClient"</span> <span class="na">class=</span><span class="s">"org.springframework.orm.ibatis.SqlMapClientFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"configLocations"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/sqlmap/config/${Globals.DbType}/*.xml<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"egov.dataSource"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"lobHandler"</span> <span class="na">ref=</span><span class="s">"egov.lobHandler"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">EgovComAbstractDAO</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">EgovComAbstractDAO</span> <span class="kd">extends</span> <span class="nc">EgovAbstractDAO</span><span class="o">{</span>
+    <span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"egov.sqlMapClient"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSuperSqlMapClient</span><span class="o">(</span><span class="nc">SqlMapClient</span> <span class="n">sqlMapClient</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">.</span><span class="na">setSuperSqlMapClient</span><span class="o">(</span><span class="n">sqlMapClient</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="context-transactionxml">context-transaction.xml</h2>
+
+<hr>
+
+<h3 id="datasourcetransactionmanager">DataSourceTransactionManager</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"txManager"</span> <span class="na">class=</span><span class="s">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"dataSource"</span> <span class="na">ref=</span><span class="s">"egov.dataSource"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="txadvice">txAdvice</h3>
+
+<p><em>transaction <code class="language-plaintext highlighter-rouge">Advice</code> 설정</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;tx:advice</span> <span class="na">id=</span><span class="s">"txAdvice"</span> <span class="na">transaction-manager=</span><span class="s">"txManager"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;tx:attributes&gt;</span>	 
+     <span class="nt">&lt;tx:method</span> <span class="na">name=</span><span class="s">"*"</span> <span class="na">propagation=</span><span class="s">"REQUIRED"</span> <span class="na">rollback-for=</span><span class="s">"Exception"</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;/tx:attributes&gt;</span>
+<span class="nt">&lt;/tx:advice&gt;</span>
+</code></pre></div></div>
+
+<h3 id="txadvisor--txadvice--pointcut">txAdvisor = txAdvice + pointcut</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Pointcut</code>, <code class="language-plaintext highlighter-rouge">Advisor</code> 설정</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;aop:config&gt;</span>
+  <span class="nt">&lt;aop:pointcut</span> <span class="na">id=</span><span class="s">"requiredTx"</span> 
+      <span class="na">expression=</span><span class="s">"execution(* egovframework.com..*Impl.*(..)) or
+                  execution(* egovframework.rte.fdl.excel.impl.*Impl.*(..))"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;aop:advisor</span> <span class="na">advice-ref=</span><span class="s">"txAdvice"</span> <span class="na">pointcut-ref=</span><span class="s">"requiredTx"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/aop:config&gt;</span>
+</code></pre></div></div>
+
+<h2 id="context-validatorxml">context-validator.xml</h2>
+
+<hr>
+
+<h3 id="defaultbeanvalidator">DefaultBeanValidator</h3>
+
+<blockquote>
+  <ol>
+    <li>
+<code class="language-plaintext highlighter-rouge">DefaultBeanValidator</code>은 사용되는 모든 규칙을 가지고 있는 <code class="language-plaintext highlighter-rouge">validator-rules.xml</code> 파일과 입력 폼에서 규칙이 어떻게 적용되는지 정보를 가지고 있는 <code class="language-plaintext highlighter-rouge">validator.xml</code> 파일을 받아서 필요한 <code class="language-plaintext highlighter-rouge">Commons Validator</code>들의 인스턴스를 생성한다.</li>
+    <li>
+<code class="language-plaintext highlighter-rouge">DefaultBeanValidator</code> 는 <code class="language-plaintext highlighter-rouge">validationFactory</code>로 부터 가져온 기본 인스턴스를 이용해 실제 검증을 수행한다.</li>
+  </ol>
+
+</blockquote>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"beanValidator"</span> <span class="na">class=</span><span class="s">"org.springmodules.validation.commons.DefaultBeanValidator"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"validatorFactory"</span> <span class="na">ref=</span><span class="s">"validatorFactory"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaultvalidatorfactory">DefaultValidatorFactory</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"validatorFactory"</span> <span class="na">class=</span><span class="s">"org.springmodules.validation.commons.DefaultValidatorFactory"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"validationConfigLocations"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/validator/com-rules.xml<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/validator/validator-rules.xml<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>classpath:/egovframework/validator/**/*.xml<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">com-rules.xml</code></p>
+
+    <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE form-validation PUBLIC
+     "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+     "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd"&gt;</span>
+<span class="nt">&lt;form-validation&gt;</span>
+<span class="nt">&lt;global&gt;</span>
+   <span class="nt">&lt;validator</span> <span class="na">name=</span><span class="s">"password1"</span>
+      <span class="na">classname=</span><span class="s">"egovframework.rte.ptl.mvc.validation.RteFieldChecks"</span>
+      <span class="na">method=</span><span class="s">"validatePassword1"</span>
+      <span class="na">methodParams=</span><span class="s">"java.lang.Object,
+               org.apache.commons.validator.ValidatorAction,
+               org.apache.commons.validator.Field,
+               org.springframework.validation.Errors"</span>
+  
+      <span class="na">depends=</span><span class="s">""</span> <span class="na">msg=</span><span class="s">"errors.password1"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;javascript&gt;</span><span class="cp">&lt;![CDATA[
+      function validatePassword1(form) {
+         var focusField = null;
+         var i = 0;
+         var fields = new Array();
+         oPassword = new password1();
+         for (x in oPassword) {
+            var field = form[oPassword[x][0]];
+            if (field.type == 'password') {
+               if (trim(field.value).length==0 || !checkPassword1(field)) {
+                  if (i == 0) {
+                     focusField = field;
+                  }
+                  fields[i++] = oPassword[x][1];
+                  return false;
+               }
+            }
+         }
+         if (fields.length &gt;</span> 0) {
+            focusField.focus();
+            alert(fields.join('\n'));
+         }
+         return true;
+               }
+      ]]&gt;
+      <span class="nt">&lt;/javascript&gt;</span>
+   <span class="nt">&lt;/validator&gt;</span>
+<span class="nt">&lt;/global&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">validator.jsp</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/sec/rnc/validator.do"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">validate</span><span class="o">(){</span>
+    <span class="k">return</span> <span class="s">"egovframework/com/cmm/validator"</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;</span><span class="err">%@</span> <span class="na">taglib</span> <span class="na">prefix=</span><span class="s">"c"</span> <span class="na">uri=</span><span class="s">"http://java.sun.com/jsp/jstl/core"</span> <span class="err">%</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;</span><span class="err">%@</span> <span class="na">page</span> <span class="na">language=</span><span class="s">"java"</span> <span class="na">contentType=</span><span class="s">"javascript/x-javascript"</span> <span class="err">%</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;</span><span class="err">%@</span> <span class="na">taglib</span> <span class="na">prefix=</span><span class="s">"validator"</span> <span class="na">uri=</span><span class="s">"http://www.springmodules.org/tags/commons-validator"</span> <span class="err">%</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;validator:javascript</span> <span class="na">dynamicJavascript=</span><span class="s">"false"</span> <span class="na">staticJavascript=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">validator</code>를 사용하는 <code class="language-plaintext highlighter-rouge">jsp</code></p>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c">&lt;!-- valitor-rules.xml 파일의 모든 자바스크립트 라이브러리 입니다. --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"&lt;c:url value="</span><span class="err">/</span><span class="na">sec</span><span class="err">/</span><span class="na">rnc</span><span class="err">/</span><span class="na">validator.do</span><span class="err">"</span><span class="nt">/&gt;</span><span class="dl">"</span><span class="s2">&gt;</span><span class="nt">&lt;/script&gt;</span>
+  <span class="c">&lt;!-- validator.xml의 entrprsManageVO 를 검증하기위한 스크립트를 생성합니다. --&gt;</span>
+  <span class="nt">&lt;validator:javascript</span> <span class="na">formName=</span><span class="s">"entrprsManageVO"</span> <span class="na">staticJavascript=</span><span class="s">"false"</span> <span class="na">xhtml=</span><span class="s">"true"</span> <span class="na">cdata=</span><span class="s">"false"</span><span class="nt">/&gt;</span>
+    
+  function fnSbscrb(){
+    if(validateEntrprsManageVO(document.entrprsManageVO)){
+      if(document.entrprsManageVO.entrprsMberPassword.value != document.entrprsManageVO.entrprsMberPassword2.value){
+              alert("<span class="nt">&lt;spring:message</span> <span class="na">code=</span><span class="s">"fail.user.passwordUpdate2"</span> <span class="nt">/&gt;</span>");
+              return;
+          }
+          document.entrprsManageVO.submit();
+      }
+  }
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="webapplicationcontext">WebApplicationContext</h1>
+
+<hr>
+
+<h2 id="egov-com-servletxml">egov-com-servlet.xml</h2>
+
+<hr>
+
+<h3 id="component-scan">component-scan</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">"egovframework"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;context:include-filter</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Controller"</span> <span class="na">type=</span><span class="s">"annotation"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;context:exclude-filter</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Service"</span> <span class="na">type=</span><span class="s">"annotation"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;context:exclude-filter</span> <span class="na">expression=</span><span class="s">"org.springframework.stereotype.Repository"</span> <span class="na">type=</span><span class="s">"annotation"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/context:component-scan&gt;</span>
+</code></pre></div></div>
+
+<h3 id="imagepaginationrenderer">ImagePaginationRenderer</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.ImagePaginationRenderer"</span> <span class="na">id=</span><span class="s">"imageRenderer"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="defaultpaginationmanager">DefaultPaginationManager</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager"</span> <span class="na">id=</span><span class="s">"paginationManager"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"rendererType"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;map&gt;</span>
+      <span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">"image"</span> <span class="na">value-ref=</span><span class="s">"imageRenderer"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/map&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="annotationmethodhandleradapter">AnnotationMethodHandlerAdapter</h3>
+
+<p>Controller에서 화면 JSP 입력 값을 받기 위해, 일반적으로 Command(VO Class)객체를 사용하지만, Map객체를 사용하는 것을 선호할 수 있다.
+<code class="language-plaintext highlighter-rouge">org.springframework.web.bind.support.WebArgumentResolver</code> 의 구현 클래스인 <code class="language-plaintext highlighter-rouge">CommandMapArgumentResolver</code>는 HTTP request 객체에 있는 파라미터 이름과 값을 Map 객체에 담아 Controller에서 사용하도록 제공한다.  파라미터 이름으로 <code class="language-plaintext highlighter-rouge">commandMap</code>으로 사용하면 Map 객체에 담아준다.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"webBindingInitializer"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.web.EgovBindingInitializer"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"customArgumentResolvers"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.rte.ptl.mvc.bind.CommandMapArgumentResolver"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">CommandMapArgumentResolver</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommandMapArgumentResolver</span> <span class="kd">implements</span> <span class="nc">WebArgumentResolver</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">resolveArgument</span><span class="o">(</span><span class="nc">MethodParameter</span> <span class="n">methodParameter</span><span class="o">,</span>
+          <span class="nc">NativeWebRequest</span> <span class="n">webRequest</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+          
+        <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clazz</span> <span class="o">=</span> <span class="n">methodParameter</span><span class="o">.</span><span class="na">getParameterType</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">paramName</span> <span class="o">=</span> <span class="o">**</span><span class="n">methodParameter</span><span class="o">.</span><span class="na">getParameterName</span><span class="o">();**</span>
+          
+        <span class="k">if</span><span class="o">(</span><span class="n">clazz</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">paramName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"commandMap"</span><span class="o">)){</span>
+            
+          <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">commandMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;();</span>
+          <span class="nc">HttpServletRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HttpServletRequest</span><span class="o">)</span> <span class="n">webRequest</span><span class="o">.</span><span class="na">getNativeRequest</span><span class="o">();</span>			
+          <span class="nc">Enumeration</span><span class="o">&lt;?&gt;</span> <span class="n">enumeration</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameterNames</span><span class="o">();</span>
+            
+          <span class="k">while</span><span class="o">(</span><span class="n">enumeration</span><span class="o">.</span><span class="na">hasMoreElements</span><span class="o">()){</span>
+            <span class="nc">String</span> <span class="n">key</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">enumeration</span><span class="o">.</span><span class="na">nextElement</span><span class="o">();</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">values</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameterValues</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">values</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+              <span class="n">commandMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="o">(</span><span class="n">values</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">?</span> <span class="nl">values:</span><span class="n">values</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">);</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+          <span class="k">return</span> <span class="n">commandMap</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="no">UNRESOLVED</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">CommandMap</code>을 사용하는 <code class="language-plaintext highlighter-rouge">Controller</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/sec/cmt/SiteCodeGroupMstInsertView.do"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">insertSiteCodeGroupMstView</span><span class="o">(**</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">commandMap</span><span class="o">**,</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span><span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">init</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">commandMap</span><span class="o">);</span>
+    <span class="k">return</span> <span class="s">"egovframework/com/sec/cmt/SiteCodeGroupMstView"</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="simpleurlannotationhandlermapping">SimpleUrlAnnotationHandlerMapping</h3>
+
+<p><code class="language-plaintext highlighter-rouge">DispatcherServlet</code>에 Client로부터 Http Request가 들어 오면 HandlerMapping은 요청처리를 담당할 Controller를 매핑한다.*</p>
+
+<p><em>Spring MVC는 interface인 HandlerMapping의 구현 클래스도 가지고 있는데, 용도에 따라 여러 개의 HandlerMapping을 사용하는 것도 가능하다.</em></p>
+
+<p><em>빈 정의 파일에 HandlerMapping에 대한 정의가 없다면 Spring MVC는 기본(default) HandlerMapping을 사용한다.</em></p>
+
+<p><em>기본 HandlerMapping은 <code class="language-plaintext highlighter-rouge">BeanNameUrlHandlerMapping</code>이며, jdk 1.5 이상의 실행환경이면, <code class="language-plaintext highlighter-rouge">DefaultAnnotationHandlerMapping</code>도 기본 HandlerMapping이다.</em></p>
+
+<p><em>Spring MVC가 제공하는 주요 HandlerMapping 구현 클래스는 아래와 같다.</em></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">*BeanNameUrlHandlerMapping*</code></li>
+  <li>
+<code class="language-plaintext highlighter-rouge">~~*DefaultAnnotationHandlerMapping</code>~~ → (<code class="language-plaintext highlighter-rouge">**Spring 3.1 이상**</code>) <strong><code class="language-plaintext highlighter-rouge">RequestMappingHandlerMapping</code></strong>*</li>
+  <li><code class="language-plaintext highlighter-rouge">*ControllerClassNameHandlerMapping*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">*SimpleUrlHandlerMapping*</code></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">*@MVC</code>에서 <code class="language-plaintext highlighter-rouge">DefaultAnnotationHandlerMapping</code>은 URL 단위로 interceptor를 적용할 수 없기에 전자정부프레임워크에서 아래와 같은 HandlerMapping 구현 클래스를 추가했다.*</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">*SimpleUrlAnnotationHandlerMapping</code> ← <code class="language-plaintext highlighter-rouge">DefaultAnnotationHandlerMapping 상속</code>*</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"selectAnnotaionMapper"</span> <span class="na">class=</span><span class="s">"egovframework.rte.ptl.mvc.handler.SimpleUrlAnnotationHandlerMapping"</span> <span class="na">p:order=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"interceptors"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;list&gt;</span>
+      <span class="nt">&lt;ref</span> <span class="na">local=</span><span class="s">"authenticInterceptor"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/list&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"urls"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;set&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/**/*.do<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/set&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="참고-전자정부-프레임워크-41버전-설정">[참고] 전자정부 프레임워크 4.1버전 설정</h3>
+
+<p><em><code class="language-plaintext highlighter-rouge">org.springframework.web.servlet.handler.MappedInterceptor</code> (<code class="language-plaintext highlighter-rouge">HandlerInterceptor</code> 구현 클래스)</em></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;mvc:interceptors&gt;</span>
+  <span class="nt">&lt;mvc:interceptor&gt;</span>
+    <span class="nt">&lt;mvc:mapping</span> <span class="na">path=</span><span class="s">"/**/*.do"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;mvc:exclude-mapping</span> <span class="na">path=</span><span class="s">"/uat/uia/**"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;mvc:exclude-mapping</span> <span class="na">path=</span><span class="s">"/index.do"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.interceptor.AuthenticInterceptor"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"adminAuthPatternList"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;list&gt;</span>
+          <span class="nt">&lt;value&gt;</span>/sec/ram/*.do<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/list&gt;</span>
+      <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/bean&gt;</span>
+  <span class="nt">&lt;/mvc:interceptor&gt;</span>
+<span class="nt">&lt;/mvc:interceptor&gt;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">MappedInterceptor</code> 생성자</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">MappedInterceptor</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">includePatterns</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">excludePatterns</span><span class="o">,</span>
+      <span class="nc">HandlerInterceptor</span> <span class="n">interceptor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">this</span><span class="o">(</span><span class="n">includePatterns</span><span class="o">,</span> <span class="n">excludePatterns</span><span class="o">,</span> <span class="k">new</span> <span class="nc">WebRequestHandlerInterceptorAdapter</span><span class="o">(</span><span class="n">interceptor</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="authenticinterceptor">AuthenticInterceptor</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"authenticInterceptor"</span> <span class="na">class=</span><span class="s">"egovframework.com.cmm.interceptor.AuthenticInterceptor"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"permittedURL"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;set&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/uat/uia/[a-zA-Z]+\.do<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/EgovLeft.do<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/uat/uia/actionLogin.do<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/lxLoginUser.do<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/test/lxLoginUser.do<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;value&gt;</span>/uss/umt/userSearch.do<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/set&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="simplemappingexceptionresolver">SimpleMappingExceptionResolver</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"defaultErrorView"</span> <span class="na">value=</span><span class="s">"egovframework/com/cmm/error/egovError"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"exceptionMappings"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;props&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"org.springframework.dao.DataAccessException"</span><span class="nt">&gt;</span>egovframework/com/cmm/error/dataAccessFailure<span class="nt">&lt;/prop&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"org.springframework.transaction.TransactionException"</span><span class="nt">&gt;</span>egovframework/com/cmm/error/dataAccessFailure<span class="nt">&lt;/prop&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"egovframework.rte.fdl.cmmn.exception.EgovBizException"</span><span class="nt">&gt;</span>egovframework/com/cmm/error/egovBizException<span class="nt">&lt;/prop&gt;</span>
+      <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">"org.springframework.web.HttpSessionRequiredException"</span><span class="nt">&gt;</span>egovframework/com/uat/uia/EgovLoginUsr<span class="nt">&lt;/prop&gt;</span>
+    <span class="nt">&lt;/props&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<h3 id="viewresolver">ViewResolver</h3>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">BeanNameViewResolver</code></p>
+
+    <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.view.BeanNameViewResolver"</span> <span class="na">p:order=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">UrlBasedViewResolver</code></p>
+
+    <div class="language-xml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.servlet.view.UrlBasedViewResolver"</span> <span class="na">p:order=</span><span class="s">"1"</span> <span class="na">p:prefix=</span><span class="s">"/WEB-INF/jsp/"</span> <span class="na">p:suffix=</span><span class="s">".jsp"</span> <span class="na">p:viewClass=</span><span class="s">"org.springframework.web.servlet.view.JstlView"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="egov-com-loginaopxml">egov-com-loginaop.xml</h2>
+
+<hr>
+
+<h3 id="egovloginlogaspect">EgovLoginLogAspect</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"egov.loginlog"</span> <span class="na">class=</span><span class="s">"egovframework.com.sym.log.clg.service.EgovLoginLogAspect"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">EgovLoginLogAspect.java</code></p>
+
+    <p><em>로그인 로그 정보 생성</em></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logLogin</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+  	<span class="nc">String</span> <span class="n">uniqId</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+  	<span class="nc">String</span> <span class="n">ip</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+    
+  	<span class="cm">/* Authenticated  */</span>
+        <span class="nc">Boolean</span> <span class="n">isAuthenticated</span> <span class="o">=</span> <span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">isAuthenticated</span><span class="o">();</span>
+    	<span class="k">if</span><span class="o">(</span><span class="n">isAuthenticated</span><span class="o">.</span><span class="na">booleanValue</span><span class="o">())</span> <span class="o">{</span>
+  		<span class="nc">LoginVO</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">LoginVO</span><span class="o">)</span><span class="nc">EgovUserDetailsHelper</span><span class="o">.</span><span class="na">getAuthenticatedUser</span><span class="o">();</span>
+  		<span class="n">uniqId</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+  		<span class="n">ip</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">getIp</span><span class="o">();</span>
+    	<span class="o">}</span>
+    
+    	<span class="nc">LoginLog</span> <span class="n">loginLog</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LoginLog</span><span class="o">();</span>
+    	<span class="n">loginLog</span><span class="o">.</span><span class="na">setLoginId</span><span class="o">(</span><span class="n">uniqId</span><span class="o">);</span>
+        <span class="n">loginLog</span><span class="o">.</span><span class="na">setLoginIp</span><span class="o">(</span><span class="n">ip</span><span class="o">);</span>
+        <span class="n">loginLog</span><span class="o">.</span><span class="na">setLoginMthd</span><span class="o">(</span><span class="s">"I"</span><span class="o">);</span> <span class="c1">// 로그인:I, 로그아웃:O</span>
+        <span class="n">loginLog</span><span class="o">.</span><span class="na">setErrOccrrAt</span><span class="o">(</span><span class="s">"N"</span><span class="o">);</span>
+        <span class="n">loginLog</span><span class="o">.</span><span class="na">setErrorCode</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>
+        <span class="n">loginLogService</span><span class="o">.</span><span class="na">logInsertLoginLog</span><span class="o">(</span><span class="n">loginLog</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="login-aspect">Login Aspect</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;aop:config&gt;</span>
+  <span class="nt">&lt;aop:aspect</span> <span class="na">id=</span><span class="s">"egov.loginLogAspect"</span> <span class="na">ref=</span><span class="s">"egov.loginlog"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!--  로그인 Method --&gt;</span>
+    <span class="nt">&lt;aop:before</span> <span class="na">pointcut=</span><span class="s">"execution(public * egovframework.com.uat.uia.web.EgovLoginController.actionMain(..))"</span> <span class="na">method=</span><span class="s">"logLogin"</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!--  로그아웃 Method --&gt;</span>
+    <span class="nt">&lt;aop:before</span> <span class="na">pointcut=</span><span class="s">"execution(public * egovframework.com.uat.uia.web.EgovLoginController.actionLogout(..))"</span> <span class="na">method=</span><span class="s">"logLogout"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/aop:aspect&gt;</span>
+<span class="nt">&lt;/aop:config&gt;</span>
+</code></pre></div></div>
+
+<h2 id="비지니스-로직-내-transaction-관리">비지니스 로직 내 Transaction 관리</h2>
+
+<hr>
+
+<h3 id="platformtransactionmanager">PlatformTransactionManager</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="nd">@Resource</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"txManager"</span><span class="o">)</span>
+<span class="kd">private</span> <span class="nc">PlatformTransactionManager</span> <span class="n">txManager</span><span class="o">;</span>
+<span class="o">..</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">()</span> <span class="o">{</span>
+  <span class="c1">// 트랜잭션 선언</span>
+  <span class="nc">DefaultTransactionDefinition</span> <span class="n">txDefinition</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultTransactionDefinition</span><span class="o">();</span>
+  <span class="n">txDefinition</span><span class="o">.</span><span class="na">setPropagationBehavior</span><span class="o">(</span><span class="nc">TransactionDefinition</span><span class="o">.</span><span class="na">PROPAGATION_REQUIRED</span><span class="o">);</span>
+  <span class="nc">TransactionStatus</span> <span class="n">txStatus</span> <span class="o">=</span> <span class="n">txManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">(</span><span class="n">txDefinition</span><span class="o">);</span>
+  <span class="k">try</span><span class="o">{</span>
+    <span class="n">select</span><span class="o">();</span>
+    <span class="c1">//transaction 1</span>
+    <span class="n">delete</span><span class="o">();</span>
+    <span class="c1">//transaction 2</span>
+    <span class="n">insert</span><span class="o">();</span>
+    <span class="c1">//커밋</span>
+    <span class="n">txManager</span><span class="o">.</span><span class="na">commit</span><span class="o">(</span><span class="n">txStatus</span><span class="o">);</span>
+  <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span>
+    <span class="n">txManager</span><span class="o">.</span><span class="na">rollback</span><span class="o">(</span><span class="n">txStatus</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/spring/2023/06/14/post1.html" title="토비의 스프링 - 2-4장 스프링 @MVC 2 ">토비의 스프링 - 2-4장 스프링 @MVC...</a><a class="next" href="/jekyll-theme-yat/troubleshooting/2023/08/14/TroubleShooting1.html" title="Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.">Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다....</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/java/2023/05/28/post1.html" title="Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.">Java 컴파일과 JVM 메모리 영역</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/02/post1.html" title="Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.">토비의 스프링 - 2장 테스트</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/java/2023/05/26/post1.html" title="Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.">Java 8에서 Java 17로 마이그레이션 해야 하는 7가지 이유</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/troubleshooting/2023/08/14/TroubleShooting1.html" title="Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.">Maven 3.8.1 이후부터 HTTP 저장소는 차단됩니다.</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<!----><script src="https://utteranc.es/client.js" repo="aken5887/aken5887.github.io" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async>
+      </script>
+    </div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    var topHeadId = 1;
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      var headTagName = h.tagName.toLowerCase();
+      var headId = h.getAttribute('id');
+
+      if(headTagName == 'h1'){
+        topHeadId++;
+      }
+      menuHTML += (
+        '<li class="h-' + headTagName + ' h1-' + topHeadId + '">'
+        + '<a href="#h-' + headId + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      var topHeadId = '';
+
+      if(index > -1){
+        topHeadId = items[index].classList.item(1);
+      }
+
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h1')
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h1')
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (
+            (!item.classList.contains('h-h1') && !item.classList.contains('h-h2'))
+             || (item.classList.contains('h-h2') && !item.classList.contains(topHeadId))
+            ) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        item.style.display = '';
+      }
+
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
+          item.style.display = 'none';
+        }
+      }
+
+      for(var i = 0; i < items.length; i++){
+        item = items[i];
+        if(item.classList.contains(topHeadId) && item.classList.contains('h-h2')){
+          item.style.display = '';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2023-2023 aken5887</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

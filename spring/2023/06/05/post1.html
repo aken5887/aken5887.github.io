@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>토비의 스프링 - 6장 AOP | AK’s Dev Wiki</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="토비의 스프링 - 6장 AOP">
+<meta name="author" content="aken5887">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="선언적 트랜잭션 기능 “스프링에 적용된 가장 인기 있는 AOP의 적용 대상”">
+<meta property="og:description" content="선언적 트랜잭션 기능 “스프링에 적용된 가장 인기 있는 AOP의 적용 대상”">
+<link rel="canonical" href="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/05/post1.html">
+<meta property="og:url" content="https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/05/post1.html">
+<meta property="og:site_name" content="AK’s Dev Wiki">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-06-05T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="토비의 스프링 - 6장 AOP">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"aken5887"},"dateModified":"2023-06-05T00:00:00+00:00","datePublished":"2023-06-05T00:00:00+00:00","description":"선언적 트랜잭션 기능 “스프링에 적용된 가장 인기 있는 AOP의 적용 대상”","headline":"토비의 스프링 - 6장 AOP","mainEntityOfPage":{"@type":"WebPage","@id":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/05/post1.html"},"url":"https://aken5887.github.io/jekyll-theme-yat/spring/2023/06/05/post1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/assets/images/favicon/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-6312418501184620",
+      enable_page_level_ads: true
+    });
+  </script><link type="application/atom+xml" rel="alternate" href="https://aken5887.github.io/jekyll-theme-yat/feed.xml" title="AK's Dev Wiki">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="AK's Dev Wiki" src="/assets/images/favicon/favicon.ico" onerror="this.style.display='none'">
+  AK's Dev Wiki
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/archives.html">아카이브</a><a class="page-link" href="/jekyll-theme-yat/categories.html">카테고리</a><a class="page-link" href="/jekyll-theme-yat/tags.html">태그별</a>
+
+
+
+
+
+
+
+
+
+<!--              <span class="page-link">-->
+<!--
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->
+<!--              </span>-->
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('false' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">토비의 스프링 - 6장 AOP</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-06-05T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Jun 05, 2023
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 15 mins</span>
+  </p>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#%ED%86%A0%EB%B9%84%EC%9D%98%EC%8A%A4%ED%94%84%EB%A7%81">#토비의스프링</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p><strong>선언적 트랜잭션 기능</strong></p>
+
+  <p>“스프링에 적용된 가장 인기 있는 AOP의 적용 대상”</p>
+</blockquote>
+
+<h1 id="61-트랜잭션-코드의-분리">6.1 트랜잭션 코드의 분리</h1>
+
+<hr>
+
+<h2 id="612-di를-이용한-클래스의-분리">6.1.2 DI를 이용한 클래스의 분리</h2>
+
+<hr>
+
+<h3 id="di의-기본-아이디어">DI의 기본 아이디어</h3>
+
+<ul>
+  <li>실제 사용할 오브젝트의 클래스 정체는 감춘 채 인터페이스를 통해 간접으로 접근한다.</li>
+  <li>구현 클래스는 얼마든지 외부(스프링 컨테이너)에서 변경할 수 있다.
+    <ul>
+      <li>런타임 시에 구현 클래스가 사용 클래스에 주입된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="63-다이내믹-프록시와-팩토리-빈">6.3 다이내믹 프록시와 팩토리 빈</h1>
+
+<hr>
+
+<h2 id="631-프록시와-프록시-패턴-데코레이터-패턴">6.3.1 프록시와 프록시 패턴, 데코레이터 패턴</h2>
+
+<hr>
+
+<h3 id="전략-패턴-기존">전략 패턴 (기존)</h3>
+
+<ul>
+  <li>단순한 확장성을 고려해서 한 가지 기능을 분리한다면 전형적인 전략 패턴을 사용하였다.</li>
+  <li>전략 패턴 적용 전
+    <ul>
+      <li>핵심기능 코드 + 부가기능 구현 코드
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">UserService</code> (구현 class)</li>
+          <li>핵심 기능과 부가기능 모두 클래스 한곳에 구현하였다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>전략 패턴 적용 후
+    <ul>
+      <li>핵심기능 코드
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">UserServiceServiceImpl</code> (구현 class)</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceImpl</span> <span class="kd">implements</span> <span class="nc">UserService</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(){}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li>부가기능 인터페이스
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">UserService</code> (interface)</li>
+            </ul>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserService</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">addUser</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li>부가기능 구현 코드 + 핵심 기능 호출
+            <ul>
+              <li>
+                <p><code class="language-plaintext highlighter-rouge">UserServiceTx</code> (구현 class)</p>
+
+                <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserServiceTx</span> <span class="kd">implements</span> <span class="nc">UserService</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">UserService</span> <span class="nc">UserService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">PlatformTransactionmanager</span> <span class="n">transactionManager</span><span class="o">;</span>
+              
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUserService</span><span class="o">(</span><span class="nc">UserService</span> <span class="n">userService</span><span class="o">){</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">userService</span> <span class="o">=</span> <span class="n">userService</span><span class="o">;</span>	
+    <span class="o">}</span>
+            
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTransactionManager</span><span class="o">(..</span> <span class="n">transactionManager</span><span class="o">){</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">transactionManager</span> <span class="o">=</span> <span class="n">transactionManager</span><span class="o">;</span>
+    <span class="o">}</span>
+              
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(){</span>
+      <span class="c1">// 기능 before</span>
+      <span class="nc">TransactionStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">transactionManager</span><span class="o">.</span><span class="na">getTransaction</span>
+                                      <span class="o">(</span><span class="k">new</span> <span class="nc">DefaultTransactionDefinition</span><span class="o">());</span>
+      <span class="k">try</span><span class="o">{</span>
+       <span class="n">userService</span><span class="o">.</span><span class="na">addUser</span><span class="o">();</span>
+       <span class="n">transactionManager</span><span class="o">.</span><span class="na">commit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+      <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+        <span class="o">...</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="프록시">프록시</h3>
+
+<ul>
+  <li>핵심 기능을 부가 기능을 통해서 클라이언트가 사용하도록 한다.</li>
+  <li>프록시(대리 오브젝트)가 대리자 &amp; 대리인의 역할을 한다.</li>
+  <li>클라이언트와 타겟사이에 프록시가 위치한다.
+    <ul>
+      <li>클라이언트 → 프록시 → 타겟</li>
+    </ul>
+  </li>
+  <li>특징
+    <ul>
+      <li>타깃과 같은 인터페이스를 구현한다.</li>
+      <li>프록시가 타깃을 제어할 위치에 있다.</li>
+    </ul>
+  </li>
+  <li>사용목적에 따른 구분
+    <ul>
+      <li>클라이언트가 타깃에 접근하는 방법을 제어 (생성을 늦춤)
+        <ul>
+          <li><strong>프록시 패턴</strong></li>
+        </ul>
+      </li>
+      <li>타깃에 부가적인 기능을 부여해주기 위해서 (기능이 추가됨)
+        <ul>
+          <li><strong>데코레이터 패턴</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="데코레이터-패턴">데코레이터 패턴</h3>
+
+<ul>
+  <li>타깃에 부가적인 기능을 런타임 시 다이나믹하게 부여해주기 위해 프록시를 사용한다.</li>
+  <li>컴파일 시점, 코드 상에서는 어떤 방법과 순서로 프록시와 타깃이 연결되어 사용되는지 정해져 있지 않고 다이나믹하게 부여한다.</li>
+  <li>데코레이터 패턴 구조
+    <ul>
+      <li>클라이언트 → 데코레이터A → 데코레이터B → 타깃</li>
+      <li>각 데코레이터는 위임하는 대상에도 인터페이스로 접근하기 떄문에 위임대상을 구체적으로 알 수 없다.</li>
+      <li>데코레이터의 다음 위임 대상은 인터페이스로 선언하고 생성자나 수정자 메소드를 통해 위임대상을 외부에서 런타임으로 주입 받도록 해야한다.</li>
+    </ul>
+  </li>
+  <li>데코레이터 패턴은 타깃의 코드를 손대지 않고, 클라이언트가 호출하는 방법도 변경하지 않은 채로 새로운 기능을 추가할 때 유용한 방법
+    <ul>
+      <li>인터페이스를 통해 다음 오브젝트로 위임하기 때문에 가능하다.</li>
+    </ul>
+  </li>
+  <li>자바 IO 패키지
+    <ul>
+      <li>데코레이터 패턴이 사용된 대표적인 예이다.</li>
+      <li>타깃 : <code class="language-plaintext highlighter-rouge">FileInputStream</code>
+</li>
+      <li>데코레이터 : <code class="language-plaintext highlighter-rouge">BufferedInputStream</code>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">InputStream</span> <span class="n">is</span>
+    <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedInputStream</span>
+        <span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"a.txt"</span><span class="o">));</span>  
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="프록시-패턴">프록시 패턴</h3>
+
+<ul>
+  <li><strong>“프록시” 용어와 구분할 필요 있다.</strong></li>
+  <li>프록시를 사용하는 방법 중 타깃에 대한 접근 방법을 제어하려는 목적을 가진 경우에 해당한다.</li>
+  <li>프록시 패턴의 프록시는 타깃의 기능을 확장하거나 추가하지 않는다. (데코레이터와 차이점)</li>
+  <li>클라이언트가 타깃에 접근하는 방식을 변경한다.</li>
+  <li>사용 사례
+    <ul>
+      <li>타깃 오브젝트 생성 비용이 크고, 당장 필요하지 않은 경우에 사용한다.</li>
+      <li>필요한 시점까지 오브젝트 생성 하지 않는 편이 좋은데, 타깃 오브젝트에 대한 레퍼런스가 필요할 때 프록시 패턴을 적용한다.</li>
+      <li>프록시를 통해서 생성을 최대한 늦춘다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">Collections</code>의 <code class="language-plaintext highlighter-rouge">unmodifiableCollection()</code>
+    <ul>
+      <li>전형적인 접근 제어용 프록시이다.</li>
+      <li>파라미터로 전달된 Collection 오브젝트의 프록시를 만들어서, 정보를 수정하는 메소드를 호출할 경우 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> 예외를 발생시킨다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="632-다이나믹-프록시">6.3.2 <strong>다이나믹 프록시</strong>
+</h2>
+
+<hr>
+
+<p><code class="language-plaintext highlighter-rouge">java.lang.reflect</code>패키지 안에 프록시를 손쉽게 만들 수 있도록 지원해주는 클래스 존재</p>
+
+<ul>
+  <li>리플렉션 기능을 이용해서 프록시를 만들어 준다.</li>
+  <li>리플렉션이란?
+    <ul>
+      <li>자바의 코드 자체를 추상화해서 접근할 수 있도록 만들어진 라이브러리이다.</li>
+    </ul>
+  </li>
+  <li>일일이 프록시 클래스를 정의하지 않고, 몇가지 API를 이용해 프록시처럼 동작하는 오브젝트를 다이나믹하게 생성한다.</li>
+</ul>
+
+<h3 id="프록시의-기능">프록시의 기능</h3>
+
+<ul>
+  <li>타깃과 같은 메소드를 구현하고 있다가 메소드가 호출되면 부가기능 수행 후 타깃 오브젝트로 위임한다.</li>
+  <li>지정된 요청에 대해서는 부가기능을 수행한다.</li>
+</ul>
+
+<h3 id="다이나믹-프록시-적용">다이나믹 프록시 적용</h3>
+
+<p><img src="/assets/images/posts/2023-06-05-post1/AD0CCCCD-977B-47EC-9165-C5489444B345.jpeg" alt="AD0CCCCD-977B-47EC-9165-C5489444B345.jpeg"></p>
+
+<ul>
+  <li>다이내믹 프록시는 프록시 팩토리에 의해 런타임 시 다이내믹하게 만들어지는 오브젝트 이다.</li>
+  <li>다이나믹 프록시는 타깃의 인터페이스와 같은 타입으로 만들어진다.
+    <ul>
+      <li>프록시 팩토리에 인터페이스 정보만 제공해주면 해당 인터페이스를 구현한 클래스의 오브젝트를 자동으로 만들어주기 때문이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">InvocationHandler</code> 인터페이스</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="nc">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">InvocationHandler</code> 구현 오브젝트가 타깃 오브젝트 레퍼런스를 갖고 있다면 리플렉션을 이용해 간단히 위임 코드를 만들어 낼 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="다이나믹-프록시-구현">다이나믹 프록시 구현</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UppercaseHandler</span> <span class="kd">implements</span> <span class="nc">InvocationHandler</span><span class="o">{</span>
+  <span class="nc">Hello</span> <span class="n">target</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">UppercaseHandler</span><span class="o">(</span><span class="nc">Hello</span> <span class="n">target</span><span class="o">){</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">;</span> <span class="c1">// 타깃 오브젝트 주입</span>
+  <span class="o">}</span>
+  
+  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="nc">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+    <span class="nc">Object</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span> <span class="c1">// 타깃으로 위임</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">ret</span> <span class="k">instanceof</span> <span class="nc">String</span> <span class="o">&amp;&amp;</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"say"</span><span class="o">)){</span>
+      <span class="k">return</span> <span class="o">((</span><span class="nc">String</span><span class="o">)</span><span class="n">ret</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">();</span> <span class="c1">// 부가기능</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="o">;</span> 
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">InvocationHandler</code> 구현하는 클래스를 생성한다.</li>
+  <li>클라이언트로부터 받는 모든 요청은 <code class="language-plaintext highlighter-rouge">invoke()</code> 메소드에 전달 된다.</li>
+  <li>다이나믹 프록시를 통해 요청이 전달되면 리플렉션 API를 이용해 타깃 오브젝트의 메소드를 호출한다.</li>
+</ul>
+
+<h3 id="다이나믹-프록시-생성">다이나믹 프록시 생성</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Hello</span> <span class="n">proxyHello</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Hello</span><span class="o">)</span><span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+  <span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+  <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span><span class="nc">Hello</span><span class="o">.</span><span class="na">class</span><span class="o">},</span>
+  <span class="k">new</span> <span class="nf">UppercaseHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">HelloTarget</span><span class="o">())</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">(Hello)</code> 형변환
+    <ul>
+      <li>생성된 다이나믹 프록시 오브젝트는 Hello 인터페이스를 구현하고 있다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">getClass().getClassLoader()</code>
+    <ul>
+      <li>동적으로 생성되는 다이내믹 프록시 클래스의 로딩에 사용할 클래스 로더</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">new Class[] {Hello.class}</code>
+    <ul>
+      <li>구현할 인터페이스</li>
+      <li>다이나믹 프록시는 한번에 하나이상의 인터페이스를 구현할 수도 있다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">new UppercaseHandler(new HelloTarget())</code>
+    <ul>
+      <li>부가기능과 위임 코드를 담은 <code class="language-plaintext highlighter-rouge">InvocationHandler</code> 구현 오브젝트</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="633-다이나믹-프록시를-이용한-트랜잭션-부가기능">6.3.3 다이나믹 프록시를 이용한 트랜잭션 부가기능</h2>
+
+<hr>
+
+<h3 id="invocationhandler-구현-클래스">InvocationHandler 구현 클래스</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(...){</span>
+  <span class="k">if</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">startsWith</span><span class="o">(</span><span class="n">pattern</span><span class="o">)){</span>
+    <span class="k">return</span> <span class="nf">invokeInTransaction</span><span class="o">(</span><span class="n">method</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+  <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+    <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="nc">Object</span> <span class="nf">invokeInTransaction</span><span class="o">(...)</span> <span class="kd">throws</span> <span class="nc">Throwable</span><span class="o">{</span>
+  <span class="nc">TransactionStatus</span> <span class="n">status</span> <span class="o">=</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">trasactionManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">(</span><span class="k">new</span> <span class="nc">DefaultTransactionDefinition</span><span class="o">());</span>
+  
+  <span class="k">try</span><span class="o">{</span>
+    <span class="nc">Object</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">trasnactionManager</span><span class="o">.</span><span class="na">commit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+  <span class="k">catch</span><span class="o">(</span><span class="nc">InvocationTargetException</span> <span class="n">e</span><span class="o">){</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">transactionManager</span><span class="o">.</span><span class="na">rollback</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+    <span class="k">throw</span> <span class="n">e</span><span class="o">.</span><span class="na">getTargetException</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>DI 받는 객체
+    <ul>
+      <li>요청을 위임할 타겟 객체</li>
+      <li>트랜잭션 추상화 인터페이스</li>
+    </ul>
+  </li>
+  <li>타깃 오브젝트에서 발생하는 예외는 <code class="language-plaintext highlighter-rouge">InvocationTargetException</code>으로 한번 포장돼서 전달 된다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">getTargetException()</code> 메소드를 사용하여 중첩되어 있는 예외를 가져와야 함</li>
+    </ul>
+  </li>
+  <li>테스트 코드</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="o">...</span>
+<span class="nc">TransactionHandler</span> <span class="n">handler</span> 
+  <span class="o">=</span> <span class="k">new</span> <span class="nc">TransactionHandler</span><span class="o">();</span>
+<span class="c1">// 타깃 오브젝트</span>
+<span class="n">handler</span><span class="o">.</span><span class="na">setTarget</span><span class="o">(</span><span class="n">testUserService</span><span class="o">);</span>
+<span class="n">handler</span><span class="o">.</span><span class="na">setTrasactionManager</span><span class="o">(</span><span class="n">transactionManager</span><span class="o">);</span>
+<span class="c1">// UserService 인터페이스 타입의 다이내믹 프록시 생성</span>
+<span class="nc">UserService</span> <span class="n">txUserService</span> <span class="o">=</span>
+  <span class="o">(</span><span class="nc">UserService</span><span class="o">)</span><span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+    <span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span><span class="nc">UserService</span><span class="o">.</span><span class="na">class</span><span class="o">},</span>
+    <span class="n">handelr</span>
+  <span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="634-다이내믹-프록시-생성을-위한-팩토리-빈">6.3.4 다이내믹 프록시 생성을 위한 팩토리 빈</h2>
+
+<hr>
+
+<p>스프링은 내부적으로 <strong>리플렉션 API</strong>를 이용해서 빈 정의에 나오는 클래스 이름을 가지고 빈 오브젝트를 생성한다.</p>
+
+<ul>
+  <li>private 생성자도 빈으로 등록해주면 리플렉션으로 오브젝트를 만들 수 있음. 리플렉션은 private로 선언된 접근 규약을 위반할 수 있는 강력한 기능이 존재함.</li>
+  <li>다이나믹 프록시는 <code class="language-plaintext highlighter-rouge">Proxy</code> 클래스의 <code class="language-plaintext highlighter-rouge">newProxyInstance()</code> 라는 스태틱 팩토리 메소드를 통해서만 만들 수 있다.</li>
+  <li>
+<strong>클래스 정보를 가지고 디폴트 생성자를 통해 오브젝트를 만드는 방법</strong>으로는 DI 하기 힘들다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Date</span> <span class="n">now</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Date</span><span class="o">)</span><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"java.util.Date"</span><span class="o">).</span><span class="na">getConstructor</span><span class="o">(</span><span class="kc">null</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
+<span class="c1">// 이제는 생성자를 통한 인스턴스 생성을 권장함 </span>
+</code></pre></div></div>
+
+<ul>
+  <li>팩토리 빈이란 스프링을 대신해서 오브젝트의 생성로직을 담당하도록 만들어진 특별한 빈을 뜻한다.
+    <ul>
+      <li>스프링의 <code class="language-plaintext highlighter-rouge">FactoryBean</code>이라는 인터페이스를 구현한다.</li>
+      <li>해당 인터페이스를 구현한 클래스를 빈으로 등록하면 팩토리 빈으로 동작한다.</li>
+      <li>팩토리 빈 클래스의 오브텍트의 <code class="language-plaintext highlighter-rouge">getObject()</code>메소드를 이용해 오브젝트를 가져오고 이를 빈 오브젝트로 사용한다.</li>
+      <li>팩토리 빈은 빈 오브젝트를 생성하는 과정에서만 사용 된다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>팩토리 빈을 사용하면 다이나믹 프록시 오브젝트를 스프링의 빈으로 만들어 줄 수가 있다.</p>
+
+    <p><img src="/assets/images/posts/2023-06-05-post1/96BA9BC2-A47E-4843-B781-24F36B91BA06.jpeg" alt="96BA9BC2-A47E-4843-B781-24F36B91BA06.jpeg"></p>
+
+    <ul>
+      <li>팩토리 빈의 getObject() 메소드에 다이내믹 프록시 오브젝트를 만들어 주는 코드를 넣으면 됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="트랜잭션-프록시-팩토리-빈-설정">트랜잭션 프록시 팩토리 빈 설정</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"userService"</span> <span class="na">class=</span><span class="s">"..TxProxyFactoryBean"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"target"</span> <span class="na">ref=</span><span class="s">"userServiceImpl"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"transactionManager"</span> <span class="na">ref=</span><span class="s">"transactionManager"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"serviceInterface"</span> <span class="na">value=</span><span class="s">"....UserService"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TxProxyFactoryBean</span> <span class="kd">implements</span> <span class="nc">FactoryBean</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;{</span>
+  <span class="nc">Object</span> <span class="n">target</span><span class="o">;</span>
+  <span class="nc">PlatformTransactionManager</span> <span class="n">transactionManager</span><span class="o">;</span>
+  <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">serviceInterface</span><span class="o">;</span> <span class="c1">// Userservice외 인터페이스를 가진 타깃에도 적용가능</span>
+
+  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">getObject</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">{</span>
+    <span class="nc">TxHandler</span> <span class="n">txHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TransactionHandler</span><span class="o">();</span>
+    <span class="k">return</span> <span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(...)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="64-스프링의-프록시-팩토리-빈">6.4 스프링의 프록시 팩토리 빈</h1>
+
+<hr>
+
+<h2 id="641-proxyfactorybean">6.4.1 ProxyFactoryBean</h2>
+
+<hr>
+
+<h3 id="proxyfactorybean-등장-배경">ProxyFactoryBean 등장 배경</h3>
+
+<ul>
+  <li>스프링의 세련된 서비스 추상화 기술이다.</li>
+  <li>자바에는 JDK에서 제공하는 다이나믹 프록시 외에도 편리하게 프록시를 만들 수 있도록 지원해주는 다양한 기술이 존재한다.
+    <ul>
+      <li>JDK 다이나믹 프록시
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Interface</span> <span class="n">proxyInstace</span> <span class="o">=</span> 
+<span class="o">(</span><span class="nc">Interface</span><span class="o">)</span><span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+  <span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+  <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span><span class="kd">interface</span><span class="err">.</span><span class="nc">class</span><span class="o">},</span>
+  <span class="n">hanlder</span>
+<span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>스프링은 <strong>일관된 방법으로 프록시를 만들 수 있게 도와주는 추상 레이어를 제공</strong>
+    <ul>
+      <li>스프링은 프록시 오브젝트를 생성해주는 기술을 추상화한 팩토리 빈을 제공해 준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="일반-factorybean과-비교">일반 FactoryBean과 비교</h3>
+
+<ul>
+  <li>스프링의 <code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code>은 프록시를 생성해서 빈 오브젝트로 등록하게 해주는 팩토리 빈이다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code>은 순수하게 프록시를 생성하는 작업만을 담당하고, 프록시를 통해 제공해줄 부가기능은 별도의 빈에 둘 수 있다.</li>
+  <li>프록시에서 생성할 부가적인 기능은 <code class="language-plaintext highlighter-rouge">MethodInterceptor</code> 인터페이스를 구현해서 만든다.</li>
+</ul>
+
+<h3 id="methodinterceptor">MethodInterceptor</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">MethodInterceptor</code>의 <code class="language-plaintext highlighter-rouge">invoke()</code> 메소드는 <code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code>으로부터 타겟 오브젝트에 대한 정보까지도 함께 제공받음.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MethodInterceptor</code>는 타깃 오브젝트와 독립적이며, 타깃이 다른 여러 프록시에서 함께 사용할 수 있고, 싱글톤 빈으로 등록 가능하다.</li>
+</ul>
+
+<h3 id="jdk-dynamic-proxy와-비교">JDK Dynamic Proxy와 비교</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">UppercaseAdvice</span> <span class="kd">implements</span> <span class="nc">MethodInterceptor</span><span class="o">{</span>
+  <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(**</span><span class="nc">MethodInvocation</span> <span class="n">invocation</span><span class="o">**)</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">invocation</span><span class="o">.</span><span class="na">proceed</span><span class="o">();</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span> <span class="c1">// 부가기능	</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">MethodInvocation</code> 구현 클래스는 일종의 공유 가능한 템플릿 처럼 동작한다.</li>
+  <li>템플릿 역할을 하는 <code class="language-plaintext highlighter-rouge">MethodInvocation</code>을 싱글톤으로 두고 공유할 수 있다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code>에는 여러 개의 <code class="language-plaintext highlighter-rouge">MethodInterceptor</code>를 추가할 수 있다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">MethodInterceptor</code>란?
+        <ul>
+          <li>타깃 오브젝트에 종속되지 않은 순수한 부가기능을 담은 오브젝트</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<aside>
+💡 `MethodInterceptor` 처럼 타깃 오브젝트에 적용하는 부가기능을 담은 오브젝트를 스프링에서는 어드바이스라고 부른다.
+
+</aside>
+
+<ul>
+  <li>JDK 다이내믹 프록시를 만들 때 반드시 제공해줘야 하는 정보였던 인터페이스를 제공하지 않아도 된다.</li>
+  <li>CGLib 오픈소스 바이트코드 생성 프레임워크를 사용하여 프록시를 생성하기도 함.</li>
+</ul>
+
+<h3 id="기존-jdk-다이나믹-프록시-문제점">기존 JDK 다이나믹 프록시 문제점</h3>
+
+<p><img src="/assets/images/posts/2023-06-05-post1/38430685-7563-4BE3-8B97-E0BDF699C6F7.jpeg" alt="38430685-7563-4BE3-8B97-E0BDF699C6F7.jpeg"></p>
+
+<ul>
+  <li>부가기능을 가진 <code class="language-plaintext highlighter-rouge">InvocationHandler</code>가 타깃 메소드 선정 알고리즘에 의존한다.</li>
+  <li>여러 프록시가 공유할 수 없다</li>
+  <li>타깃 변경과 메소드 선정 알고리즘(패턴)이 변경과 같은 확장이 필요하면 빈 내 프록시 생성코드를 직접 변경 해야 하는 불편함이 존재한다.
+    <ul>
+      <li>OCP 원칙을 잘 지키지 못함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="스프링-proxyfactorybean-방식">스프링 ProxyFactoryBean 방식</h3>
+
+<p><img src="/assets/images/posts/2023-06-05-post1/96AD72D2-2DBD-4999-9A5C-9F1790A22C96.jpeg" alt="96AD72D2-2DBD-4999-9A5C-9F1790A22C96.jpeg"></p>
+
+<ul>
+  <li>두 가지 확장기능인 <strong>부가기능(어드바이스)</strong>과 <strong>메소드 선정 알고리즘(포인트컷)</strong>을 활용하는 유연한 구조를 제공 함
+    <ul>
+      <li>어드바이스 : 부가기능을 제공하는 오브젝트</li>
+      <li>포인트컷 : 메소드 선정 알고리즘을 담음 오브젝트(패턴)</li>
+      <li>두 가지 모두 여러 프록시에서 공유가 가능하도록 만들어 지기 때문에 스프링의 싱글톤으로 등록이 가능하다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MethodInterceptor</code> 타입의 어드바이스는 JDK 다이나믹 프록시의 <code class="language-plaintext highlighter-rouge">InvocationHandler</code>와 달리 직접 타깃을 호출하지 않는다.</li>
+  <li>프록시로부터 전달받은 <code class="language-plaintext highlighter-rouge">MethodInvocation</code> 타입 콜백 오브젝트의 <code class="language-plaintext highlighter-rouge">proceed()</code> 메소드를 호출 한다.</li>
+  <li>장점
+    <ul>
+      <li>전략패턴 사용 : 프록시로 부터 어드바이스나 포인트 컷을 독립시키고 DI를 사용하고, 여러 프록시가 공유하면서 사용 가능 하다.</li>
+      <li>OCP 준수 : 프록시와 <code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code> 등의 변경 없이도 기능을 자유롭게 확장할 수 있다.</li>
+    </ul>
+  </li>
+  <li><strong>어드바이저 = 포인트 컷(메소드 선정 알고리즘) + 어드바이스(부가기능)</strong></li>
+  <li>스프링의 <code class="language-plaintext highlighter-rouge">ProxyFactoryBean</code>은 스프링의 DI와 템플릿 / 콜백 패턴, 서비스 추상화등의 기법이 모두 적용되어 있음.
+    <ul>
+      <li>독립적이다.</li>
+      <li>여러 프록시가 공유할 수 있는 어드바이스와 포인트 컷으로 확장 기능을 분리할 수 있음</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">TrasactionAdvice</code>는 하나의 싱글톤 빈으로 등록해두면, DI 설정을 통해 모든 서비스에 적용이 가능하다.</li>
+    </ul>
+
+    <p><img src="/assets/images/posts/2023-06-05-post1/CF374A95-E3AA-4B17-96EB-0AF5B3816A05.jpeg" alt="CF374A95-E3AA-4B17-96EB-0AF5B3816A05.jpeg"></p>
+  </li>
+</ul>
+
+<h3 id="proxyfactorybean-테스트-코드">ProxyFactoryBean 테스트 코드</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">pointcutAdvisor</span><span class="o">(){</span>
+  <span class="nc">ProxyFactoryBean</span> <span class="n">pfBean</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ProxyFactoryBean</span><span class="o">();</span>
+  <span class="n">pfBean</span><span class="o">.</span><span class="na">setTarget</span><span class="o">(</span><span class="k">new</span> <span class="nc">HelloTarget</span><span class="o">());</span>
+  
+  <span class="nc">NameMatchMethodPointcut</span> <span class="n">pointcut</span> 
+    <span class="o">=</span> <span class="k">new</span> <span class="nc">NameMatchMethodPointcut</span><span class="o">();</span>
+  <span class="n">pointcut</span><span class="o">.</span><span class="na">setMappedName</span><span class="o">(</span><span class="s">"sayH*"</span><span class="o">);</span>
+  <span class="c1">// 어드바이저 = 포인트컷 + 어드바이스</span>
+  <span class="n">pfBean</span><span class="o">.</span><span class="na">addAdvisor</span><span class="o">(</span><span class="k">new</span> <span class="nc">DefaultPointcutAdvisor</span><span class="o">(</span><span class="n">pointcut</span><span class="o">,</span> <span class="k">new</span> <span class="nc">UppercaseAdvice</span><span class="o">());</span>
+
+  <span class="nc">Hello</span> <span class="n">proxiedHello</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Hello</span><span class="o">)</span> <span class="n">pfBean</span><span class="o">.</span><span class="na">getObject</span><span class="o">();</span>
+
+  <span class="n">assertThat</span><span class="o">(</span><span class="n">proxiedHello</span><span class="o">.</span><span class="na">sayHello</span><span class="o">(</span><span class="s">"Toby"</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="s">"Hello TOBY"</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/spring/2023/06/04/post1.html" title="토비의 스프링 - 5장 서비스 추상화">토비의 스프링 - 5장 서비스 추상화...</a><a class="next" href="/jekyll-theme-yat/spring/2023/06/07/post1.html" title="토비의 스프링 - 6장 AOP 2">토비의 스프링 - 6장 AOP 2...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/spring/2023/05/27/post2.html" title="토비의 스프링 - 6장 AOP 2">Proxy와 Spring</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/03/post1.html" title="토비의 스프링 - 6장 AOP 2">토비의 스프링 - 4장 예외</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/12/post1.html" title="토비의 스프링 - 6장 AOP 2">토비의 스프링 - 2-4장 스프링 @MVC</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/spring/2023/06/11/post1.html" title="토비의 스프링 - 6장 AOP 2">토비의 스프링 - 2-3장 스프링 웹 기술과 스프링 MVC</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<!----><script src="https://utteranc.es/client.js" repo="aken5887/aken5887.github.io" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async>
+      </script>
+    </div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    var topHeadId = 1;
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      var headTagName = h.tagName.toLowerCase();
+      var headId = h.getAttribute('id');
+
+      if(headTagName == 'h1'){
+        topHeadId++;
+      }
+      menuHTML += (
+        '<li class="h-' + headTagName + ' h1-' + topHeadId + '">'
+        + '<a href="#h-' + headId + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      var topHeadId = '';
+
+      if(index > -1){
+        topHeadId = items[index].classList.item(1);
+      }
+
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h1')
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h1')
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (
+            (!item.classList.contains('h-h1') && !item.classList.contains('h-h2'))
+             || (item.classList.contains('h-h2') && !item.classList.contains(topHeadId))
+            ) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        item.style.display = '';
+      }
+
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h1') && !item.classList.contains('h-h2')){
+          item.style.display = 'none';
+        }
+      }
+
+      for(var i = 0; i < items.length; i++){
+        item = items[i];
+        if(item.classList.contains(topHeadId) && item.classList.contains('h-h2')){
+          item.style.display = '';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyright © 2023-2023 aken5887</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
