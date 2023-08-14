@@ -22,7 +22,7 @@ Hello, ${greeting}
 
 `web.xml`의 web-app 태그 안의 버전에 서블릿 버전이 2.3 이하로 표시될 경우에 `EL`문이 동작하지 않을 수 있다.
 
-### **`web.xml`**
+## **`web.xml`**
 
 ```xml
 <!DOCTYPE web-app PUBLIC
@@ -36,10 +36,9 @@ Hello, ${greeting}
 # 해결 방법
 
 ---
+## 1. isELIgnored="false" 를 jsp 상단에 추가
 
-### 1. `isELIgnored="false"` 를 `jsp` 상단에 추가
-
-### 2. `web.xml` 스키마 헤더 변경
+## 2. web.xml 스키마 헤더 변경
 
 Servlet 4.0에 해당하는 `web.xml` 스키마 헤더로 변경해주었다.
 
